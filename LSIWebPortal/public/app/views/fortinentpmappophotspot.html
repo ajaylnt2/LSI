@@ -1,0 +1,367 @@
+<div class="row">
+    <div class="col-sm-4 col-md-3 mar-bot-15">
+        <div class="fortinet-tree">
+            <div class="title">{{treeList.name}}</div>
+            <ul ng-repeat="parentList in dynamicBranches" ng-init="value=storeInst[0].id">
+                <li ng-repeat="stores in parentList.stores">
+                    <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store')">
+                    <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                    <ul>
+                        <li ng-repeat="flors in stores.floors">
+                            <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor')">
+                            <label for="flors{{flors.id}}"><img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-repeat="childBranches in parentList.childBranches">
+                    <input type="radio" name="treeButton" ng-model="value" value="{{childBranches.id}}" id="branch{{childBranches.id}}" ng-click="getSelectedId(childBranches.id, 'Branch')"> <img src="images/branch_icon.png" class="foldericons" />
+                    <label for="branch{{childBranches.id}}">{{childBranches.name}}</label>
+                    <ul>
+                        <li ng-repeat="stores in childBranches.stores">
+                            <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store')">
+                            <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                            <ul>
+                                <li ng-repeat="flors in stores.floors">
+                                    <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor')">
+                                    <label for="flors{{flors.id}}">
+                                        <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </li>
+                        <li ng-repeat="nestedChildBranches in childBranches.childBranches">
+                            <input type="radio" name="treeButton" ng-model="value" value="{{nestedChildBranches.id}}" id="branch{{nestedChildBranches.id}}" ng-click="getSelectedId(nestedChildBranches.id,'Branch')"> <img src="images/branch_icon.png" class="foldericons" />
+                            <label for="branch{{nestedChildBranches.id}}">{{nestedChildBranches.name}}</label>
+                            <ul>
+                                <li ng-repeat="stores in nestedChildBranches.stores">
+                                    <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store')">
+                                    <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                                    <ul>
+                                        <li ng-repeat="flors in stores.floors">
+                                            <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor')">
+                                            <label for="flors{{flors.id}}"> <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li ng-repeat="insideNestedChildBranches in nestedChildBranches.childBranches">
+                                    <input type="radio" name="treeButton" ng-model="treeButton" value="{{insideNestedChildBranches.id}}" id="branch{{insideNestedChildBranches.id}}" ng-click="getSelectedId(insideNestedChildBranches.id, 'Branch')"> <img src="images/branch_icon.png" class="foldericons" />
+                                    <label for="branch{{insideNestedChildBranches.id}}">{{insideNestedChildBranches.name}}</label>
+                                    <ul>
+                                        <li ng-repeat="stores in insideNestedChildBranches.stores">
+                                            <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store')">
+                                            <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                                            <ul>
+                                                <li ng-repeat="flors in stores.floors">
+                                                    <input type="radio" name="treeButton" ng-model="treeButton" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor')">
+                                                    <label for="flors{{flors.id}}"> <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-9 pull-right">
+        <h3 class="mar-bot-30">Popularity Hotspots</h3>
+        <div class="inline-block mar-right-20 mar-bot-10">
+            Date:
+            <input type="text" class="date-input pointer" uib-datepicker-popup="{{dateFormat}}" ng-model="selectedDate" name="selectedDate" is-open="availableDatePopup.opened" datepicker-options="availableDateOptions" close-text="Close" ng-click="OpenAvailableDate()" ng-change="getWifiDate()" placeholder="YYYY-MM-DD, DDDD" readonly="true" />
+        </div>
+        <p class="notification-msg mar-bot-15" ng-if="displayMessage != ''">{{displayMessage}}</p>
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active"><a data-target="#hotspotKPI" data-toggle="tab" ng-click="hotspotKPI()">Popularity Hotspot KPI</a></li>
+                    <li class="disabled" ng-show="false" title="This feature will be added soon!"><a data-target="#hotspotheatmaps">Popularity Hotspot Heatmaps</a></li>
+                </ul>
+                <div class="tab-content tab-border mar-bot-15">
+                    <div class="tab-pane active" id="hotspotKPI">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="pop-hotspot-center">
+                                    <div class="row">
+                                        <div class="col-sm-12 pop-hotspot-hd">Total Popularity per Store or Floor</div>
+                                        <div class="col-xs-4">
+                                            <table class="table kpi-box">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="pop-hotspot-sm">Dwell Time</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-if="maploaderRow">
+                                                        <td class="loader-height">
+                                                            <img ng-if="maploader" class="mar-top-15" src="images/preloader.gif" width="24">
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td>{{totalDwelltime}}</td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td ng-bind-html="totalDwelltimeChange"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <table class="table kpi-box">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="pop-hotspot-sm">Persons</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-if="maploaderRow">
+                                                        <td class="loader-height">
+                                                            <img ng-if="maploader" class="mar-top-15" src="images/preloader.gif" width="24">
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td>{{totalPersons}}</td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td ng-bind-html="totalPersonsChange"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <table class="table kpi-box">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="pop-hotspot-sm">Traffic</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-if="maploaderRow">
+                                                        <td class="loader-height">
+                                                            <img ng-if="maploader" class="mar-top-15" src="images/preloader.gif" width="24">
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td>{{totalTraffic}}</td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td ng-bind-html="totalTrafficChange"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 pop-hotspot-hd">Averages per Location</div>
+                                        <div class="col-xs-4">
+                                            <table class="table kpi-box">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="pop-hotspot-sm">Dwell Time</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-if="maploaderRow">
+                                                        <td class="loader-height">
+                                                            <img ng-if="maploader" class="mar-top-15" src="images/preloader.gif" width="24">
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td>{{dwelltimePerLocation}} </td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td ng-bind-html="averageDwelltimeChange"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <table class="table kpi-box">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="pop-hotspot-sm">Persons</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-if="maploaderRow">
+                                                        <td class="loader-height">
+                                                            <img ng-if="maploader" class="mar-top-15" src="images/preloader.gif" width="24">
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td>{{personsPerLocation}}</td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td ng-bind-html="averagePersonsChange"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <table class="table kpi-box">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="pop-hotspot-sm">Traffic</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-if="maploaderRow">
+                                                        <td class="loader-height">
+                                                            <img ng-if="maploader" class="mar-top-15" src="images/preloader.gif" width="24">
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td>{{trafficPerLocation}}</td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td ng-bind-html="averageTrafficChange"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 pop-hotspot-hd">Averages per Person</div>
+                                        <div class="col-xs-4">
+                                            <table class="table kpi-box">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="pop-hotspot-sm">Dwell Time</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-if="maploaderRow">
+                                                        <td class="loader-height">
+                                                            <img ng-if="maploader" class="mar-top-15" src="images/preloader.gif" width="24">
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td>{{dwelltimePerPerson}}</td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td ng-bind-html="personDwelltimeChange"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-xs-4"> </div>
+                                        <div class="col-xs-4">
+                                            <table class="table kpi-box">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="pop-hotspot-sm">Traffic</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-if="maploaderRow">
+                                                        <td class="loader-height">
+                                                            <img ng-if="maploader" class="mar-top-15" src="images/preloader.gif" width="24">
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td>{{trafficPerPerson}}</td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td ng-bind-html="personTrafficChange"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 pop-hotspot-hd">Dispersion (Entropy)</div>
+                                        <div class="col-xs-4">
+                                            <table class="table kpi-box">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="pop-hotspot-sm">Dwell Time</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-if="maploaderRow">
+                                                        <td class="loader-height">
+                                                            <img ng-if="maploader" class="mar-top-15" src="images/preloader.gif" width="24">
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td>{{dwelltimeEntropy}}</td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td ng-bind-html="entropyDwelltimeChange"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <table class="table kpi-box">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="pop-hotspot-sm">Persons</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-if="maploaderRow">
+                                                        <td class="loader-height">
+                                                            <img ng-if="maploader" class="mar-top-15" src="images/preloader.gif" width="24">
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td>{{personsEntropy}}</td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td ng-bind-html="entropyPersonsChange"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <table class="table kpi-box">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="pop-hotspot-sm">Traffic</td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-if="maploaderRow">
+                                                        <td class="loader-height">
+                                                            <img ng-if="maploader" class="mar-top-15" src="images/preloader.gif" width="24">
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td>{{trafficEntropy}}</td>
+                                                    </tr>
+                                                    <tr ng-if="!maploaderRow">
+                                                        <td ng-bind-html="entropyTrafficChange"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12" ng-if="!maploaderRow">
+                                <div class="map-key">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <img width="20px" src="https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=i%7C67DDDD%7C000000">
+                                                </td>
+                                                <td>
+                                                    * Change compared to average of last three {{sDay}}.
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="hotspotheatmaps"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

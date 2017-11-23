@@ -1,0 +1,82 @@
+﻿<h2 class="page_title">C Store Analytics</h2>
+<p ng-if="!currentUser.CStoreAnalyticsLoadedStatus" class="notification_msg ng-scope">We're sorry, but something went wrong.</p>
+
+<div ng-if="currentUser.CStoreAnalyticsLoadedStatus">
+    <div class="row" >
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Select List:</label>
+                <select class="form-control" ng-model="selectedMode.v" ng-options="a.name as a.name for a in cStoreList" ng-change="getCStoreList(selectedMode.v, dates)"></select>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Date Range:</label>
+                <div class="clear"></div>
+                <input class="form-control pointer" type="daterange" ng-model="dates" ranges="ranges" ng-change="getDate()" readonly="true">
+            </div>
+        </div>
+    </div>
+    <hr />   
+    <p ng-if="loader"><img src="images/preloader.gif" width="30"></p>
+    <div ng-if="chartDivLoaded">
+        <div ng-if="noDateFound" class="notification_msg">There is currently no data available for given time frame.</div>
+        <div class="row">
+            <!-- Sales Information -->
+            <div class="col-md-6" ng-if="getCStoreListValue == 'Sales Information'">
+                <hc-chart options="chartOptions" class="chart" ng-if="chartLoaded">Placeholder for generic chart</hc-chart>
+            </div>
+            <div class="col-md-6" ng-if="getCStoreListValue == 'Sales Information'">
+                <hc-chart options="chartOptionsTotal" class="chart" ng-if="chartLoaded">Placeholder for generic chart</hc-chart>
+            </div>
+
+            <!--   Redemptions by Offer  -->
+            <div class="col-md-12" ng-if="getCStoreListValue == 'Redemptions by Offer'">
+                <hc-chart options="chartOptions" class="chart" ng-if="chartLoaded">Placeholder for generic chart</hc-chart>
+            </div>
+
+            <!-- Redemptions by Channel -->
+            <div class="col-md-12" ng-if="getCStoreListValue == 'Redemptions by Channel'">
+                <hc-chart class="chart" options="chartOptions" ng-if="chartLoaded">Placeholder for generic chart</hc-chart>
+            </div>
+
+            <!-- Redemptions by Day -->
+            <div class="col-md-12" ng-if="getCStoreListValue == 'Redemptions by Day'">
+                <hc-chart options="chartOptions" class="chart" ng-if="chartLoaded">Placeholder for generic chart</hc-chart>
+            </div>
+
+            <!-- Redemptions by Location -->
+            <div class="col-md-12" ng-if="getCStoreListValue == 'Redemptions by Location'">
+                <hc-chart options="chartOptions" class="chart" ng-if="chartLoaded">Placeholder for generic chart</hc-chart>
+            </div>
+
+            <!-- Redemptions by Landing Page Impression -->
+            <div class="col-md-12" ng-if="getCStoreListValue == 'Landing Page Impression'">
+                <hc-chart options="chartOptions" class="chart" ng-if="chartLoaded">Placeholder for generic chart</hc-chart>
+            </div>
+
+            <!-- Transaction Information -->
+            <div class="col-md-12" ng-if="getCStoreListValue == 'Transaction Information'">
+                <div class="row">
+                    <div class="col-sm-6" ng-if="myTansData1" ng-bind-html="myTable1"></div>
+                    <div class="col-sm-6" ng-if="myTansData2" ng-bind-html="myTable2"></div>
+                </div>
+            </div>
+
+            <!-- Download Reports -->
+            <div class="col-md-12" ng-if="getCStoreListValue == 'Download Reports'">
+
+                <div class="form-group" ng-if="chartLoaded">
+                    <input type="button" name="redemptionsReport" value="Redemption Report" ng-click="generateRedemptionReport()" class="btn btn-default" />
+                </div>
+                <div class="form-group" ng-if="chartLoaded">
+                    <input type="button" name="rawTranxReport" value="Raw Transaction Report" ng-click="generateRawTranxReport()" class="btn btn-default" />
+                </div>
+                <div class="form-group" ng-if="chartLoaded">
+                    <input type="button" name="conversionReport" value="Conversion Report" ng-click="generateConversionReport()" class="btn btn-default" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,293 @@
+﻿<div class="row">
+    <div class="col-sm-4 col-md-3 mar-bot-15">
+        <div class="fortinet-tree">
+            <div class="title">{{treeList.name}}</div>
+            <ul ng-repeat="parentList in dynamicBranches" ng-init="value=storeInst[0].id">
+                <li ng-repeat="stores in parentList.stores">
+                    <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store')">
+                    <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                    <ul>
+                        <li ng-repeat="flors in stores.floors">
+                            <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor')">
+                            <label for="flors{{flors.id}}"><img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>
+                            <ul>
+                                <li ng-repeat="accessPt in flors.accessPoints">
+                                    <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id, 'AccessPoint')">
+                                    <label for="accessPt{{accessPt.id}}">
+                                        <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </li>
+                        <li ng-repeat="accessPt in stores.accessPoints">
+                            <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint')">
+                            <label for="accessPt{{accessPt.id}}">
+                                <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                            </label>
+                        </li>
+                        <li ng-repeat="areas in stores.areas">
+                            <input type="radio" name="treeButton" ng-model="value" value="{{areas.id}}" id="accessPt{{areas.id}}" ng-click="getSelectedId(areas.id,'Area')">
+                            <label for="accessPt{{areas.id}}">
+                                <img src="images/area_icon.png" class="foldericons" /> {{areas.name}}
+                            </label>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-repeat="childBranches in parentList.childBranches">
+                    <input type="radio" name="treeButton" ng-model="value" value="{{childBranches.id}}" id="branch{{childBranches.id}}" ng-click="getSelectedId(childBranches.id, 'Branch')"> <img src="images/branch_icon.png" class="foldericons" />
+                    <label for="branch{{childBranches.id}}">{{childBranches.name}}</label>
+                    <ul>
+                        <li ng-repeat="stores in childBranches.stores">
+                            <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store')">
+                            <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                            <ul>
+                                <li ng-repeat="flors in stores.floors">
+                                    <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor')">
+                                    <label for="flors{{flors.id}}">
+                                        <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}
+                                    </label>
+                                    <ul>
+                                        <li ng-repeat="accessPt in flors.accessPoints">
+                                            <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint')">
+                                            <label for="accessPt{{accessPt.id}}">
+                                                <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li ng-repeat="accessPt in stores.accessPoints">
+                                    <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint')">
+                                    <label for="accessPt{{accessPt.id}}">
+                                        <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                                    </label>
+                                </li>
+                                <li ng-repeat="areas in stores.areas">
+                                    <input type="radio" name="treeButton" ng-model="value" value="{{areas.id}}" id="accessPt{{areas.id}}" ng-click="getSelectedId(areas.id,'Area')">
+                                    <label for="accessPt{{areas.id}}">
+                                        <img src="images/area_icon.png" class="foldericons" /> {{areas.name}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </li>
+                        <li ng-repeat="nestedChildBranches in childBranches.childBranches">
+                            <input type="radio" name="treeButton" ng-model="value" value="{{nestedChildBranches.id}}" id="branch{{nestedChildBranches.id}}" ng-click="getSelectedId(nestedChildBranches.id,'Branch')"> <img src="images/branch_icon.png" class="foldericons" />
+                            <label for="branch{{nestedChildBranches.id}}">{{nestedChildBranches.name}}</label>
+                            <ul>
+                                <li ng-repeat="stores in nestedChildBranches.stores">
+                                    <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store')">
+                                    <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                                    <ul>
+                                        <li ng-repeat="flors in stores.floors">
+                                            <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor')">
+                                            <label for="flors{{flors.id}}"> <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>
+                                            <ul>
+                                                <li ng-repeat="accessPt in flors.accessPoints">
+                                                    <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint')">
+                                                    <label for="accessPt{{accessPt.id}}"> <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}</label>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li ng-repeat="accessPt in stores.accessPoints">
+                                            <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint')">
+                                            <label for="accessPt{{accessPt.id}}">
+                                                <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                                            </label>
+                                        </li>
+                                        <li ng-repeat="areas in stores.areas">
+                                            <input type="radio" name="treeButton" ng-model="value" value="{{areas.id}}" id="accessPt{{areas.id}}" ng-click="getSelectedId(areas.id,'Area')">
+                                            <label for="accessPt{{areas.id}}">
+                                                <img src="images/area_icon.png" class="foldericons" /> {{areas.name}}
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li ng-repeat="insideNestedChildBranches in nestedChildBranches.childBranches">
+                                    <input type="radio" name="treeButton" ng-model="treeButton" value="{{insideNestedChildBranches.id}}" id="branch{{insideNestedChildBranches.id}}" ng-click="getSelectedId(insideNestedChildBranches.id, 'Branch')"> <img src="images/branch_icon.png" class="foldericons" />
+                                    <label for="branch{{insideNestedChildBranches.id}}">{{insideNestedChildBranches.name}}</label>
+                                    <ul>
+                                        <li ng-repeat="stores in insideNestedChildBranches.stores">
+                                            <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store')">
+                                            <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                                            <ul>
+                                                <li ng-repeat="flors in stores.floors">
+                                                    <input type="radio" name="treeButton" ng-model="treeButton" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor')">
+                                                    <label for="flors{{flors.id}}"> <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>
+                                                    <ul>
+                                                        <li ng-repeat="accessPt in flors.accessPoints">
+                                                            <input type="checkbox" name="accessPt{{accessPt.id}}" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint')">
+                                                            <label for="accessPt{{accessPt.id}}">
+                                                                <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li ng-repeat="accessPt in stores.accessPoints">
+                                                    <input type="checkbox" name="accessPt{{accessPt.id}}" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint')">
+                                                    <label for="accessPt{{accessPt.id}}"> <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}</label>
+                                                </li>
+                                                <li ng-repeat="areas in stores.areas">
+                                                    <input type="radio" name="treeButton" ng-model="value" value="{{areas.id}}" id="accessPt{{areas.id}}" ng-click="getSelectedId(areas.id,'Area')">
+                                                    <label for="accessPt{{areas.id}}">
+                                                        <img src="images/area_icon.png" class="foldericons" /> {{areas.name}}
+                                                    </label>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-9 pull-right">
+        <h3 class="mar-bot-30">Dwell time distribution</h3>
+        <div class="time_buttons mar-bot-30" ng-init="selectedBtn = 'minute'">
+            <button class="btn btn-default" ng-class="{'active':selectedBtn === 'second'}" ng-click="selectedBtn = 'second' ; selectedButton('second')">Second</button>
+            <button class="btn btn-default" ng-class="{'active':selectedBtn === 'minute'}" ng-click="selectedBtn = 'minute' ; selectedButton('minute')">Minute</button>
+            <button class="btn btn-default" ng-class="{'active':selectedBtn === 'hour'}" ng-click="selectedBtn = 'hour' ; selectedButton('hour')">Hour</button>
+        </div>
+        <div class="form-group inline-elements forti-daterange">
+            <label class="date-label">Date Range:</label>
+            <input class="form-control pointer" type="daterange" ng-model="fortinetDTDDates" ranges="fortinetRanges" readonly="true">
+        </div>
+        <div class="form-group inline-elements">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Filter <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <div class="listitems">
+                            <input type="checkbox" ng-model="fUseSampling" ng-init="fUseSampling=false"> <span>Use sampling</span>
+                        </div>
+                    </li>
+                    <li ng-show="fUseSampling" class="dropdown-header">Sampling factor</li>
+                    <li ng-show="fUseSampling">
+                        <div class="listitems">
+                            <section>
+                                <input type="range" min="1" max="16" step="1" ng-model="fSamplingFactor" ng-init="fSamplingFactor=3">
+                                <span class="font-small">{{fSamplingFactor}}</span>
+                            </section>
+                        </div>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <div class="listitems">
+                            <input type="checkbox" ng-model="fRandomMacs" ng-init="fRandomMacs=true"> <span>Filter Random Macs</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="listitems">
+                            <input type="checkbox" ng-model="fEmp" ng-init="fEmp=true"> <span>Filter Employees</span>
+                        </div>
+                    </li>
+                    <li ng-show="fEmp" class="dropdown-header">Dwell Time Of Employee [hours]</li>
+                    <li ng-show="fEmp">
+                        <div class="listitems">
+                            <section>
+                                <input type="range" min="1" max="16" step="1" ng-model="fDwellTimeEmp" ng-init="fDwellTimeEmp=8">
+                                <span class="font-small">{{fDwellTimeEmp}}</span>
+                            </section>
+                        </div>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li ng-show="false">
+                        <div class="listitems">
+                            <input type="checkbox" ng-model="fDeviceOUIs" ng-init="fDeviceOUIs=true"> <span>Filter Device OUIs</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="listitems">
+                            <input type="checkbox" ng-model="fFixedEquipment" ng-init="fFixedEquipment=true"> <span>Filter Fixed Equipment</span>
+                        </div>
+                    </li>
+                    <li class="dropdown-header">Min count of observations</li>
+                    <li>
+                        <div class="listitems">
+                            <div class="input-group">
+                                <input type="text" class="form-control filter-inputgroup" ng-model="fMinCountObs" ng-init="fMinCountObs=1000" placeholder="Min count of obs" min="5">
+                                <div class="input-group-addon">Obs</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown-header">STDDEV of positions in meters</li>
+                    <li>
+                        <div class="listitems">
+                            <div class="input-group">
+                                <input type="text" class="form-control filter-inputgroup" ng-model="fSTDDEVofPosMeters" ng-init="fSTDDEVofPosMeters=5" placeholder="STDDEV of poitions" min="5">
+                                <div class="input-group-addon">m</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-group inline-elements">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Options <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-header">Time To Merge</li>
+                    <li>
+                        <div class="listitems">
+                            <div class="input-group">
+                                <input type="text" class="form-control filter-inputgroup" placeholder="Time To Merge" ng-model="fTimeMerge" ng-init="fTimeMerge=20">
+                                <div class="input-group-addon">Min</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown-header">Min Dwell Time Value</li>
+                    <li>
+                        <div class="listitems">
+                            <div class="input-group">
+                                <input type="text" class="form-control filter-inputgroup" placeholder="Min Dwell Time Value" ng-model="fDellTimeValue" ng-init="fDellTimeValue=3">
+                                <div class="input-group-addon">Min</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li ng-show="false" role="separator" class="divider"></li>
+                    <li ng-show="false" class="dropdown-header">Localization algorithm</li>
+                    <li ng-show="false" ng-init="ffLocalAlg = 'mostRecentPositionWeightedAverage'">
+                        <div class="listitems">
+                            <input type="radio" ng-model="ffLocalAlg" name="ffLocalAlg" value="mostRecentPositionWeightedAverage"> <span>WA</span>
+                        </div>
+                        <div class="listitems">
+                            <input type="radio" ng-model="ffLocalAlg" name="ffLocalAlg" value="mostRecentPositionTrilateration"> <span>Trilateration</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <button class="btn btn-primary" value="Submit" ng-click="getDwellTimeDistribution()">Submit</button>
+        <hr />
+        <p ng-if="treeSelectedStatus && !loader" class="notification-msg">Please select branch or store or floor or area or accesspoint and click on submit button</p>
+        <p ng-if="loader"><img src="images/preloader.gif" width="30"></p>
+        <p ng-if="!loader && dwellTimeDistValues.length==0 ">No data found</p>
+        <p ng-if="!loader && errorCapt" class="notification-msg">{{errorMsgCapt}}</p>
+        <div class="col-md-12" ng-if="!loader && ( dwellTimeDistValues.length >0 )">
+            <table class="table-bordered data-table mar-bot-20" ng-if="tableVisible">
+                <tr>
+                    <th>Percentile</th>
+                    <th class="capitalize">{{tableTimeValue}}</th>
+                </tr>
+                <tr>
+                    <td>75%</td>
+                    <td>{{dwellTimeDistValues[0].twentyFivePrec | number}}</td>
+                </tr>
+                <tr>
+                    <td>50%</td>
+                    <td>{{dwellTimeDistValues[0].median | number}}</td>
+                </tr>
+                <tr>
+                    <td>25%</td>
+                    <td>{{dwellTimeDistValues[0].seventyFivePrce | number}}</td>
+                </tr>
+            </table>
+            <hc-chart ng-if="graphVisible" options="fortinentcustdwelldistChart" class="chart">Placeholder for generic chart</hc-chart>
+        </div>
+    </div>
+</div>

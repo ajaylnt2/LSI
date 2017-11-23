@@ -1,0 +1,91 @@
+﻿<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add User</h4>
+            </div>
+            <form name="addUserForm" novalidate>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input class="form-control" type="email" id="email" name="email" ng-model="addUserFormData.EmailId" required placeholder="xxx@xxx.com">
+                                <span class="error_text" ng-show="addUserForm.email.$error.required && addUserForm.email.$touched">Required</span>
+                                <span class="error_text" ng-show="!addUserForm.email.$error.required && addUserForm.email.$error.email && addUserForm.email.$dirty">Invalid Email</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Customer Name:</label>
+                                <input class="form-control" type="text" id="username" name="username" ng-model="addUserFormData.UserName" ng-pattern="/^[\w -]*$/" ng-minlength="2" ng-maxlength="20" maxlength="20" required placeholder="Customer Name">
+                                <span class="error_text" ng-show="addUserForm.username.$error.required && addUserForm.username.$touched">Required</span>
+                                <span class="error_text" ng-show="!addUserForm.username.$error.minLength && !addUserForm.username.$error.maxLength && addUserForm.username.$error.pattern && addUserForm.username.$touched">Name must contain letters and space only.</span>
+                                <span class="error_text" ng-show="!addUserForm.username.$error.required && (addUserForm.username.$error.minlength || addUserForm.username.$error.maxlength) && addUserForm.username.$touched">Name must be between 2 and 20 characters.</span>
+                            </div>
+                            <div class="form-group">
+                                <label>Role:</label><br />
+                                <label class="radio-inline"><input type="radio" name="role" ng-model="addUserFormData.Role" value="admin">Admin</label>
+                                <label class="radio-inline"><input type="radio" name="role" ng-model="addUserFormData.Role" checked value="user">User</label>
+                            </div>
+                            <div class="form-group">
+                                <label>Accessable To:</label>
+                                <div class="clearfix"><!-- donot delete this -- clear both property --></div>
+                                <div class="access_checkbox">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="CStoreAnalytics" ng-model="addUserFormData.CStoreAnalytics" ng-required="!(addUserFormData.CStoreAnalytics
+                                        || addUserFormData.CameraAnalytics
+                                        || addUserFormData.WifiAnalytics)">C Store Analytics
+                                    </label>
+                                    <input class="form-control mar_bot_5" type="text" name="XAuthIdentity" ng-model="addUserFormData.XAuthIdentity" ng-disabled="!addUserFormData.CStoreAnalytics" placeholder="X-Auth-Identity">
+                                    <input class="form-control" type="password" name="XAuthKey" ng-model="addUserFormData.XAuthKey" ng-disabled="!addUserFormData.CStoreAnalytics" placeholder="X-Auth-Key">
+                                </div>
+                                <div class="access_checkbox">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="CameraAnalytics" ng-model="addUserFormData.CameraAnalytics" ng-required="!(addUserFormData.CStoreAnalytics
+                                        || addUserFormData.CameraAnalytics
+                                        || addUserFormData.WifiAnalytics)">Camera Analytics
+                                    </label>
+                                    <input class="form-control mar_bot_5" type="text" name="AuthorizationToken" ng-model="addUserFormData.AuthorizationToken" ng-disabled="!addUserFormData.CameraAnalytics" placeholder="Token Id">
+
+                                </div>
+                                <div class="access_checkbox">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="WifiAnalytics" ng-model="addUserFormData.WifiAnalytics" ng-required="!(addUserFormData.CStoreAnalytics
+                                        || addUserFormData.CameraAnalytics
+                                        || addUserFormData.WifiAnalytics)">Wifi Analytics
+                                    </label>
+                                    <input class="form-control mar_bot_5" type="text" name="WifiUserName" ng-model="addUserFormData.WifiUserName" ng-disabled="!addUserFormData.WifiAnalytics" placeholder="Wifi Username">
+                                    <input class="form-control" type="password" name="WifiPassword" ng-model="addUserFormData.WifiPassword" ng-disabled="!addUserFormData.WifiAnalytics" placeholder="Wifi Password">
+                                </div>
+                                <div class="clearfix"><!-- donot delete this -- clear both property --></div>
+                                <span class="error_text">{{atleastOneChecked}}</span>
+                                <p class="note_text">Make sure you have entered proper credentials</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="userPassword">Password:</label>
+                                <input class="form-control" type="password" id="userPassword" name="userPassword" placeholder="Password" ng-model="addUserFormData.Password" ng-minlength="8" ng-maxlength="20" maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required>
+                                <span class="error_text" ng-show="addUserForm.userPassword.$error.required && addUserForm.userPassword.$touched">Required</span>
+                                <span class="error_text" ng-show="!addUserForm.userPassword.$error.required && (addUserForm.userPassword.$error.minlength || addUserForm.userPassword.$error.maxlength) && addUserForm.userPassword.$dirty">Passwords must be between 8 and 20 characters.</span>
+                                <span class="error_text" ng-show="!addUserForm.userPassword.$error.required && !addUserForm.userPassword.$error.minlength && !addUserForm.userPassword.$error.maxlength && addUserForm.userPassword.$error.pattern && addUserForm.userPassword.$dirty">Must contain one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="cPassword">Confirm password:</label>
+                                <input class="form-control" type="password" id="cPassword" name="cPassword" placeholder="Confirm Password" ng-model="addUserFormData.cPassword" required>
+                                <span class="error_text" ng-show="addUserForm.cPassword.$error.required && addUserForm.cPassword.$touched">Required</span>
+                                <span class="error_text">{{pNotMatching}}</span>
+                            </div>
+							<div class="form-group">
+                                <span class="error_text font_15">{{errorMessage}}</span>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" ng-disabled="!addUserForm.$valid" ng-click="addUser(addUserFormData)" class="btn redcolor_btn">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

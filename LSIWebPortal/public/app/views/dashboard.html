@@ -1,0 +1,45 @@
+<h2 class="page-title"><!-- Dashboard --></h2>
+<div class="row">
+    <div class="col-sm-12 mar-bot-20" ng-if="currentUser.cStoreAnalytics">
+        <h4>C Store Analytics</h4>
+        <hc-chart options="chartOptions" class="chart" ng-if="chartLoaded">Placeholder for generic chart</hc-chart>
+        <p ng-if="cStoreLoader"><img src="images/preloader.gif" width="30"></p>
+        <p ng-if="noDataFound">No data found for last 30 days.</p>
+        <p ng-if="!currentUser.CStoreAnalyticsLoadedStatus" class="notification-msg">We're sorry, but something went wrong.</p>
+    </div>
+    <div class="col-sm-12 mar-bot-20" ng-if="currentUser.cameraAnalytics ">
+        <h4>Camera Analytics</h4>
+        <div ng-repeat="list in dynamicSitesListArray" ng-if="prismErrorStatus">
+            <p class="dash-subtitle">Site List</p>
+            <a class="site-list-items default-cursor" ng-style="{'background-image':'url({{list.reference_image_url}})'}">
+                <div class="location-add">
+                    <span class="site-title">{{list.name}}</span>
+                    <br />
+                    <span>{{list.address.city}}, {{list.address.province}}</span>
+                </div>
+                <div class="time-details">
+                    <span class="text-uppercase"><input type="hidden" ng-model="getDatetime" />{{list.site_date}}</span>
+                    <br />
+                    <span>{{list.site_time}}</span>
+                    <br />
+                    <span>{{list.status1}}</span> <span>NOW</span>
+                </div>
+            </a>
+        </div>
+        <p ng-if="cameraLoader"><img src="images/preloader.gif" width="30"></p>
+        <div ng-if="!prismErrorStatus">
+            <p class="notification-msg">We're sorry, but something went wrong.</p>
+        </div>
+    </div>
+    <div class="col-sm-12 mar-bot-20" ng-if="currentUser.wifiAnalytics">
+        <h4>WiFi Analytics</h4>
+        <div ng-if="newVsRepeatValues.length > 0" ng-if="fortiErrorStatus">
+            <hc-chart ng-if="graphVisible" options="fortinenthomeChart" class="chart">Placeholder for generic chart</hc-chart>
+        </div>
+        <p ng-if="wifiLoader"><img src="images/preloader.gif" width="30"></p>
+        <p ng-if="newVsRepeatValues.length == 0">No data found for <strong>{{storeName}}</strong> store from last 30 days.</p>
+        <div ng-if="!fortiErrorStatus">
+            <p class="notification-msg">We're sorry, but something went wrong.</p>
+        </div>
+    </div>
+</div>

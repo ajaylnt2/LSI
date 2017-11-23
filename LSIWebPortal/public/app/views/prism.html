@@ -1,0 +1,210 @@
+<h2 class="page-title">Camera Analytics</h2>
+<div ng-if="prismErrorStatus">
+    <p ng-if="cameraMainLoader"><img src="images/preloader.gif" width="30"></p>
+    <div ng-if="sitelistview && !cameraMainLoader">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Select Account:</label>
+                    <select class="form-control" ng-model="accountSelected" ng-options="account as account.name for account in accountList" ng-change="onchangeAccount(accountSelected)"></select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="sub-hd">Site List</h3></div>
+        </div>
+        <hr />
+        <p ng-if="cameraLoader"><img src="images/preloader.gif" width="30"></p>
+        <div class="row" ng-if="!cameraLoader">
+            <div class="col-sm-6" ng-repeat="list in dynamicSitesListArray">
+                <a ng-click="sitedetails(list.id)" class="site-list-items" ng-style="{'background-image':'url({{list.reference_image_url}})'}">
+                    <div class="location-add">
+                        <span class="site-title">{{list.name}}</span>
+                        <br />
+                        <span>{{list.address.city}}, {{list.address.province}}</span>
+                    </div>
+                    <div class="time-details">
+                        <span class="text-uppercase"><input type="hidden" ng-model="getDatetime" />{{list.site_date}}</span>
+                        <br />
+                        <span>{{list.site_time}}</span>
+                        <br />
+                        <span>{{list.status1}}</span> <span>NOW</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div ng-if="sitelistdetails">
+        <div class="row" ng-if="!cameraZoneLoader">
+            <div class="col-sm-7 col-md-8 col-lg-9">
+                <div class="back-link"><a ng-click="gobacktositelist()"><span class="glyphicon glyphicon-menu-left"></span> Site List</a></div>
+            </div>
+            <div class="col-sm-5 col-md-4 col-lg-3">
+                <div class="form-group prism-selectweek">
+                    <label>Select Week:</label>
+                    <div class="input-group">
+                        <span class="input-group-addon pointer" ng-click="preWeek()"><span class="glyphicon glyphicon-menu-left"></span></span>
+                        <input type="text" class="form-control text-center" ng-model="weeklyDate" readonly="readonly">
+                        <span class="input-group-addon pointer" ng-click="nextWeek()"><span class="glyphicon glyphicon-menu-right"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p ng-if="cameraZoneLoader"><img src="images/preloader.gif" width="30"></p>
+        <div class="row mob-top-10" ng-if="!cameraZoneLoader">
+            <div class="col-sm-12 sdataile-name">{{sdetails.name}}</div>
+            <div class="col-sm-12">
+                <div class="site-details" ng-style="{'background-image':'url({{sdetails.reference_image_url}})'}">
+                    <div class="location-add">
+                        <span class="add-line1">{{sdetails.address.line1}}</span>
+                        <br />
+                        <span>{{sdetails.address.city}}, {{sdetails.address.province}} {{sdetails.address.postal_code}}</span>
+                    </div>
+                    <div class="time-details">
+                        <span class="text-uppercase">{{siteDDate}}</span>
+                        <br />
+                        <span>{{siteDTime}}</span>
+                        <br />
+                        <span>{{status}}</span> <span>NOW</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active"><a data-target="#analytics" data-toggle="tab" ng-click="analytics()">Analytics</a></li>
+                    <li><a data-target="#visualinsights" data-toggle="tab" ng-click="visualinsights()">Visual Insights</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="analytics">
+                        <div ng-if="zonelist">
+                            <div class="items-count"><span>{{zlists.length}}</span> <span>Zones</span></div>
+                            <div class="row">
+                                <div class="col-sm-6 col-md-4" ng-repeat="zlist in zlists">
+                                    <a ng-click="zonereports(analyticsCountsValue[$index].zoneId, analyticsCountsValue[$index].siteId, analyticsCountsValue[$index].zoneName)" class="zone-list-items">
+                                        <div class="zone-bg" ng-style="{'background-image':'url({{sdetails.reference_image_url}})'}"></div>
+                                        <div class="row pad-10">
+                                            <div class="col-sm-12">
+                                                <h3 class="zone-title">{{analyticsCountsValue[$index].zoneName}}</h3></div>
+                                            <div class="col-sm-6">
+                                                <div class="splash-stat">{{analyticsCountsValue[$index].countValue}}</div>
+                                                <div class="splash-stat-text">Selected week</div>
+                                                <div class="change-stats" ng-if="analyticsCountsValue[$index].countValue == 0 || analyticsCountsValue[$index].countValue == null">
+                                                    <span class="percent-change">
+                                                        <span>Not enough data for comparison</span>
+                                                    </span>
+                                                </div>
+                                                <div class="change-stats" ng-if="analyticsCountsValue[$index].countValue > 0">
+                                                    <span class="percent-change">
+                                                        <span class="number" ng-class="analyticsCountsValue[$index].changeValue > 0 ? 'increasing' : 'decreasing'">
+                                                            <span ng-if="analyticsCountsValue[$index].changeValue > 0 ">+</span><span>{{analyticsCountsValue[$index].changeValue | roundup}}</span><span>%</span>
+                                                    </span>
+                                                    <span>vs. previous week</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 mob-top-20">
+                                                <div class="splash-stat">{{analyticsCountsValue1[$index].countValue}}</div>
+                                                <div class="splash-stat-text">Today</div>
+                                                <div class="change-stats" ng-if="analyticsCountsValue1[$index].countValue == 0 || analyticsCountsValue1[$index].countValue == null">
+                                                    <span class="percent-change">
+                                                        <span>Not enough data for comparison</span>
+                                                    </span>
+                                                </div>
+                                                <div class="change-stats" ng-if="analyticsCountsValue1[$index].countValue > 0">
+                                                    <span class="percent-change">
+                                                        <span class="number" ng-class="analyticsCountsValue1[$index].changeValue > 0 ? 'increasing' : 'decreasing'">
+                                                            <span ng-if="analyticsCountsValue1[$index].changeValue > 0 ">+</span><span>{{analyticsCountsValue1[$index].changeValue | roundup}}</span><span>%</span>
+                                                    </span>
+                                                    <span>vs. previous {{weekday}}</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="zonereportsdetails">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="mar-top-bot-15"><a ng-click="gobacktozonelist()"><span class="glyphicon glyphicon-menu-left"></span> All Zones</a></div>
+                                    <div class="row">
+                                        <div class="col-sm-6 mar-top-bot-15">
+                                            <div class="splash-stat">
+                                                <h3 class="zone-title-bigfont">{{zName}}</h3></div>
+                                            <div class="splash-stat-bigfont">{{zoneCountChange.count}}</div>
+                                            <div class="splash-stat-text-bigfont">Selected week</div>
+                                            <div class="change-stats-bigfont" ng-if="zoneCountChange.count == 0 || zoneCountChange.count == null">
+                                                <span class="percent-change">
+                                                        <span>Not enough data for comparison</span>
+                                                </span>
+                                            </div>
+                                            <div class="change-stats-bigfont">
+                                                <span class="percent-change">
+                                                        <span class="number" ng-class="zoneCountChange.change > 0 ? 'increasing' : 'decreasing'">
+                                                            <span ng-if="zoneCountChange.change > 0 ">+</span><span>{{zoneCountChange.change | roundup}}</span><span>%</span>
+                                                </span>
+                                                <span>vs. previous week</span>
+                                                </span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div id="cemeraBarChart" class="chart"></div>
+                                            <div id="cemeraHeatChart" class="chart"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="visualinsights">
+                        <div ng-if="insightlist">
+                            <div class="items-count"><span>{{insightListDataLength}}</span> <span>Insights</span></div>
+                            <div class="row">
+                                <div class="col-sm-6 col-md-4" ng-repeat="list in insightListData">
+                                    <div ng-click="largeinsight(list)" class="insight-list-items">
+                                        <div class="insight-bg" ng-style="{'background-image':'url({{list.image_url}})'}"></div>
+                                        <table class="vi-data">
+                                            <tr>
+                                                <td width="45" ng-if="list.insightsActivity == 'activity'"><span class="vi-icon icon-traffic"></span></td>
+                                                <td width="45" ng-if="list.insightsPath == 'path'"><span class="vi-icon icon-path"></span></td>
+                                                <td>
+                                                    <div class="vi-item-header">{{list.camera_name}}</div>
+                                                    <div></div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="insightenlarged">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="mar-top-bot-15"><a ng-click="gobacktoinsightlist()"><span class="glyphicon glyphicon-menu-left"></span> All Insight</a></div>
+                                    <div class="insightenlarged-item">
+                                        <div class="insightenlarged-bg" ng-if="insightenlarged"><img src="{{insightSelectedListData.image_url}}" class="img-responsive" /></div>
+                                        <table class="vi-data">
+                                            <tr>
+                                                <td width="45" ng-if="insightSelectedListData.insightsActivity == 'activity'"><span class="vi-icon icon-traffic"></span></td>
+                                                <td width="45" ng-if="insightSelectedListData.insightsPath == 'path'"><span class="vi-icon icon-path"></span></td>
+                                                <td>
+                                                    <div class="vi-item-header">{{insightSelectedListData.camera_name}}</div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-if="!prismErrorStatus">
+    <p class="notification-msg">We're sorry, but something went wrong.</p>
+</div>

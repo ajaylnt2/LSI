@@ -1,0 +1,80 @@
+﻿<h2 class="page_title">Wifi Analytics</h2>
+<p ng-if="fortinetMainLoader"><img src="images/preloader.gif" width="30"></p>
+<div  ng-if="fortiSuccessStatus">
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="sub_nav">
+                <li><a class="sub_nav_links" ui-sref="fortinent.fortinenthome" href="#/fortinent.fortinenthome"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                <li class="dropdown">
+                    <a class="sub_nav_links dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Customer KPI<span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-arrow multi-level">
+                        <li><a ui-sref="fortinent.fortinentpersonvisible" href="#/fortinent.fortinentpersonvisible">Person Visible</a></li>
+                        <li><a ui-sref="fortinent.fortinentpersontophours" href="#/fortinent.fortinentpersontophours">Person top hours</a></li>
+                        <li class="dropdown-submenu">
+                            <a>Dwell Time</a>
+                            <ul class="dropdown-menu">
+                                <li><a ui-sref="fortinent.fortinentcustdwelldist" href="#/fortinent.fortinentcustdwelldist">Distribution</a></li>
+                                <!--<li><a ui-sref="fortinent.fortinentcustdwelltrend" href="#/fortinent.fortinentcustdwelltrend">Trend</a></li>-->
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a>Recency</a>
+                            <ul class="dropdown-menu">
+                                <li><a ui-sref="fortinent.fortinentcustrecedist" href="#/fortinent.fortinentcustrecedist">Distribution</a></li>
+                                <!--<li><a ui-sref="fortinent.fortinentcustrecetrend" href="#/fortinent.fortinentcustrecetrend">Trend</a></li>
+                                <li><a ui-sref="fortinent.fortinentcustrecelcust" href="#/fortinent.fortinentcustrecelcust">Lost Customers</a></li>-->
+                            </ul>
+                        </li>
+                        <li><a ui-sref="fortinent.fortinentfreqdist" href="#/fortinent.fortinentfreqdist">Frequency Distribution</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a class="sub_nav_links dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown"><span class="glyphicon glyphicon-time"></span> Realtime<span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-arrow" aria-labelledby="dropdownMenu2">
+                        <li><a ui-sref="fortinent.fortinentrealcalibration" href="#/fortinent.fortinentrealcalibration">Calibration</a></li>
+                        <li><a ui-sref="fortinent.fortinentrealtimetrack" href="#/fortinent.fortinentrealtimetrack">Real time tracking</a></li>
+                        <li class="dropdown-submenu">
+                            <a>Density Heatmap</a>
+                            <ul class="dropdown-menu">
+                                <li><a ui-sref="fortinent.fortinentrealdensheatmap" href="#/fortinent.fortinentrealdensheatmap">Current Density Heatmap</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a class="sub_nav_links dropdown-toggle" id="dropdownMenu3" data-toggle="dropdown"><span class="glyphicon glyphicon-map-marker"></span> Maps<span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-arrow" aria-labelledby="dropdownMenu3">
+                        <li class="dropdown-submenu">
+                        <a>Popularity heatmap</a>
+                            <ul class="dropdown-menu">
+                                <li><a ui-sref="fortinent.fortinentpmapcdwelltime" href="#/fortinent.fortinentpmapcdwelltime">Cumulative <br>dwell time / day</a></li>
+                                <li><a ui-sref="fortinent.fortinentpmapcpersons" href="#/fortinent.fortinentpmapcpersons">Cumulative <br>persons / day</a></li>
+                                <li><a ui-sref="fortinent.fortinentpmapctraffic" href="#/fortinent.fortinentpmapctraffic">Cumulative <br>traffic / day</a></li>
+                            </ul>
+                        </li>
+                         <li><a ui-sref="fortinent.fortinentpmappophotspot" href="#/fortinent.fortinentpmappophotspot">Popularity Hotspots</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a class="sub_nav_links dropdown-toggle" id="dropdownMenu3" data-toggle="dropdown"><span class="glyphicon glyphicon-bullhorn"></span> Campaign<span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-arrow" aria-labelledby="dropdownMenu3">
+                        <li><a ui-sref="fortinent.fortinentcampcreate" href="#/fortinent.fortinentcampcreate">Create Campaign</a></li>
+                        <li><a ui-sref="fortinent.fortinentcampresult" href="#/fortinent.fortinentcampresult">Results</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-sm-12">
+            <div data-ui-view></div>        
+        </div>
+    </div>
+</div>
+<div ng-if="fortiErrorStatus">
+    <p class="notification_msg">We're sorry, but something went wrong.</p>   
+</div>
+
+

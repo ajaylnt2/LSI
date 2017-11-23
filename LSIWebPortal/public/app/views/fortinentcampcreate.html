@@ -1,0 +1,656 @@
+﻿<div class="row">
+    <div class="col-sm-12" ng-if="!addCmp && !update">
+        <h3 class="mar-bot-10">Campaign</h3>
+        <div class="row">
+            <div class="col-sm-6 pull-left mar-bot-10">
+                <button type="button" class="btn btn-default" ng-click="newCamp()">
+                    <span class="glyphicon glyphicon-plus"></span> Campaign
+                </button>
+                <button type="button" class="btn btn-danger" ng-if="edit" ng-click="editCampValues()">
+                    <span class="glyphicon glyphicon-pencil"></span> Edit
+                </button>
+                <button type="button" class="btn btn-default" ng-if="edit" ng-click="rmvCamp()">
+                    <span class="glyphicon glyphicon-minus"></span> Remove
+                </button>
+            </div>
+            <div class="col-sm-6 mar-bot-10">
+                <button type="button" class="btn btn-default pull-right" ng-click="rmvAllCmps()"><span class="glyphicon glyphicon-minus"></span> Remove all</button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-Cstriped table-hover">
+                <tr>
+                    <th class="text-center">Coupon</th>
+                    <th>
+                        <a class="table-hd-link" ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                  Campaign
+                  <span ng-show="sortType == 'name' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                  <span ng-show="sortType == 'name' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                  </a>
+                    </th>
+                    <th>
+                        <a class="table-hd-link" ng-click="sortType = 'trigger'; sortReverse = !sortReverse">
+                  Trigger
+                  <span ng-show="sortType == 'trigger' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                  <span ng-show="sortType == 'trigger' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                  </a>
+                    </th>
+                    <th>
+                        <a class="table-hd-link" ng-click="sortType = 'startDateTime'; sortReverse = !sortReverse">
+                  Start date
+                  <span ng-show="sortType == 'startDateTime' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                  <span ng-show="sortType == 'startDateTime' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                  </a>
+                    </th>
+                    <th>
+                        <a class="table-hd-link" ng-click="sortType = 'endDateTime'; sortReverse = !sortReverse">
+                  End date
+                  <span ng-show="sortType == 'endDateTime' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                  <span ng-show="sortType == 'endDateTime' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                  </a>
+                    </th>
+                    <th>
+                        <a class="table-hd-link" ng-click="sortType = 'timeToSend'; sortReverse = !sortReverse">
+                  Time/Delay  [GMT{{timezone}}]
+                  <span ng-show="sortType == 'timeToSend' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                  <span ng-show="sortType == 'timeToSend' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                  </a>
+                    </th>
+                    <th>
+                        <a class="table-hd-link" ng-click="sortType = 'action'; sortReverse = !sortReverse">
+                  Action
+                  <span ng-show="sortType == 'action' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                  <span ng-show="sortType == 'action' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                  </a>
+                    </th>
+                </tr>
+                <tr ng-repeat="campaign in allCampaigns | orderBy:sortType:sortReverse | startForm:(currentPage - 1) * itemsPerPage | limitTo:itemsPerPage" ng-class="{'row-selected':$index == selectedRow}" ng-dblClick="editCampValues()" ng-click="setClickedRow($index,campaign.id)">
+                    <td class="text-center"><img src={{campaign.couponUrl}} alt="coupon image" width="40"></td>
+                    <td>{{campaign.name}}</td>
+                    <td>{{campaign.trigger}}</td>
+                    <td>{{campaign.startDateTime}} </td>
+                    <td>{{campaign.endDateTime}}</td>
+                    <td class="text-right">{{campaign.timeToSend}}</td>
+                    <td class="text-center">
+                        <button ng-click="setStatus(campaign.id)" class="btn" ng-class="(campaign.action === 'Start') ? 'btn-default' : 'btn-danger'">{{campaign.action}}</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="mar-left-10" ng-if="allCampaigns.length == 0">No data found.</div>
+        <div class="row" ng-show="allCampaigns.length > 5">
+            <div class="col-sm-6 pull-left mar-bot-10"><span class="mar-left-10">View 
+            <select class="page-section" ng-model="viewby" ng-change="setItemsPerPage(viewby)" ng-options="option for option in pageOptions">
+            </select> per page</span>
+            </div>
+            <div class="col-sm-6 mar-bot-10">
+                <span class="pull-right mar-right-10">
+               <ul uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages" items-per-page="itemsPerPage"></ul>
+            </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12" ng-if="addCmp">
+        <h3 class="mar-bot-10">Create Campaign</h3>
+        <div class="row">
+            <div class="col-sm-7 col-md-8 col-lg-9">
+                <div class="back-link">
+                    <a ng-click="goBack()">
+               <span class="glyphicon glyphicon-menu-left"></span> Back to Campaign List
+               </a>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-bullhorn"></span> Campaign name
+                    </div>
+                    <div class="panel-body">
+                        <input class="form-control" type="text" name="name" required ng-model="newCampaign.name" placeholder="Enter Campaign name">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-show="newCampaign.trigger=='WiFi logins today' || newCampaign.trigger=='First time in Area today'">
+                <div class="panel panel-success secondLeftPanels">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Time frame
+                    </div>
+                    <div class="panel-body">
+                        <label>Campaign start and end:</label>
+                        <input class="date-picker-input pointer" type="daterange" ng-model="fortinetNewCmpDates" ranges="fortinetRanges">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-4">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-cog"></span> Campaign Configuration
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label>Trigger</label>
+                            <select class="form-control" ng-init="newCampaign.trigger='Once'" ng-model="newCampaign.trigger" ng-click="setTimeOpt()">
+                                <optgroup label="Scheduled Messaging">
+                                    <option selected value="Once">Once</option>
+                                    <option value="WiFi logins today">WiFi logins today</option>
+                                </optgroup>
+                                <optgroup id="live_messaging" label="Live Messaging">
+                                    <option value="First time in Area today">First time in Area today</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="form-group" ng-if="newCampaign.trigger == 'Once'">
+                            <label>Recipient</label>
+                            <select class="form-control" ng-init="newCampaign.recipient='All accounts'" ng-model='newCampaign.recipient'>
+                                <option ng-option value="All accounts">All accounts</option>
+                                <option ng-option ng-repeat="list in campDetails.lists" value="{{list.name}}">{{list.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" ng-if="newCampaign.trigger == 'First time in Area today'">
+                            <label>Triggering persons</label>
+                            <select class="form-control" ng-init="newCampaign.tgrPersons='All accounts'" ng-model="newCampaign.tgrPersons">
+                                <option ng-option value="All accounts">All accounts</option>
+                                <option ng-option ng-repeat="list in campDetails.lists" value="{{list.name}}">{{list.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" ng-if="newCampaign.trigger == 'First time in Area today'">
+                            <label>Recipient</label>
+                            <select class="form-control" ng-init="newCampaign.recipient='Person that triggered'" ng-model='newCampaign.recipient'>
+                                <option ng-option value="Person that triggered">Person that triggered</option>
+                                <option ng-option ng-repeat="list in campDetails.lists" value="{{list.name}}">{{list.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Action</label>
+                            <select class="form-control" ng-model="newCampaign.actions">
+                                <option ng-option value="SMS">SMS</option>
+                                <option ng-option value="Email">Email</option>
+                                <option ng-option value="Email/SMS">Email/SMS</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Delivery time</label>
+                            <select ng-disabled="deliveryTimeDisable" class="form-control" ng-model="newCampaign.timeDelay">
+                                <option value="Specific time">Specific time</option>
+                                <option value="Immediately">Immediately</option>
+                            </select>
+                        </div>
+                        <div ng-if="newCampaign.trigger == 'Once' && newCampaign.timeDelay == 'Specific time'">
+                            <label class="date-elem">Date to send:</label>
+                            <div class="date-time-elem">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="" ng-model="newCampaign.startDateTime" name="availabledate" is-open="availableDatePopup.opened" datepicker-options="availableDateOptions" close-text="Close" placeholder="Date" />
+                                    <span class="input-group-addon">
+                             <span class="glyphicon glyphicon-calendar" ng-click="OpenAvailableDate()"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-show="(newCampaign.trigger == 'Once' || newCampaign.trigger == 'WiFi logins today') && newCampaign.timeDelay == 'Specific time'">
+                            <label class="time-elem">Time to send:</label>
+                            <div class="input-group date-time-elem">
+                                <div uib-timepicker ng-model="mytimepick" show-meridian="false"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="newCampaign.trigger=='WiFi logins today'">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Stores
+                    </div>
+                    <div class="panel-body radioBntCenterInPanelBody">
+                        <label class="radio-inline">
+                            <input class="option-input radio radioArea" name="stores-radio" type="radio" value='All stores' ng-click="newCampaign.store='All stores'">All stores
+                        </label>
+                        <label class="radio-inline">
+                            <input class="option-input radio radioArea" name="stores-radio" type="radio" value='Selected Stores' ng-click="newCampaign.store='Selected Stores'">Select stores
+                        </label>
+                        <div ng-if="newCampaign.store=='Selected Stores'">
+                            <select class="form-control" ng-model="newCampaign.storeVal">
+                                <option ng-repeat="store in campDetails.stores" value="{{store.storeName}}">{{store.storeName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="newCampaign.trigger=='First time in Area today'">
+                <div class="panel panel-success">
+                    <div class="panel-heading">Areas</div>
+                    <div class="panel-body">
+                        <div>
+                            <label class="radio-inline">
+                                <input class="option-input radio radioArea" name="RadioArea" ng-model="newCampaign.areaInfo" type="radio" value="Area Type" ng-click="newCampaign.campaignAreas = 'Area Type'">Area Type
+                            </label>
+                            <label class="radio-inline">
+                                <input class="option-input radio radioArea" name="RadioArea" ng-model="newCampaign.areaInfo" type="radio" value="Area Interest Category" ng-click="newCampaign.campaignAreas = 'Area Interest Category'">Area Interest Category
+                            </label>
+                            <label class="radio-inline">
+                                <input class="option-input radio radioArea" name="RadioArea" ng-model="newCampaign.areaInfo" type="radio" value="Area" ng-click="newCampaign.campaignAreas = 'Area'">Area
+                            </label>
+                        </div>
+                        <div ng-if="newCampaign.campaignAreas === 'Area Type'">
+                            <select class="form-control" ng-init="newCampaign.aList = 'null'" ng-model="newCampaign.aList">
+                                <option ng-repeat="atype in campDetails.areaType" value="{{atype.name}}">{{atype.name}}</option>
+                            </select>
+                        </div>
+                        <div ng-if="newCampaign.campaignAreas === 'Area Interest Category'">
+                            <select class="form-control" ng-init="newCampaign.aList = 'null'" ng-model="newCampaign.aList">
+                                <option ng-repeat="ctgry in campDetails.areaCategory" value="{{ctgry.name}}">{{ctgry.name}}</option>
+                            </select>
+                        </div>
+                        <div ng-if="newCampaign.campaignAreas === 'Area'">
+                            <select class="form-control" ng-init="newCampaign.aList = 'null'" ng-model="newCampaign.aList">
+                                <option ng-repeat="area in campDetails.areas" value="{{area.name}}">{{area.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="newCampaign.trigger=='First time in Area today'">
+                <div id="MessageEditReles" class="panel panel-success">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span> Message configuration
+                    </div>
+                    <div class="panel-body radioBntCenterInPanelBody">
+                        <label class="radio-inline">
+                            <input class="option-input radio radioMsg" ng-model="newCampaign.messConf" value="Customized message" type="radio" name="RadioMsg" ng-click="newCampaign.actions = 'SMS'" />Customized message</label>
+                        <label class="radio-inline">
+                            <input class="option-input radio radioMsg" ng-model="newCampaign.messConf" value="Fixed message" type="radio" name="RadioMsg" ng-click="newCampaign.actions = ''" />Fixed message</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="panel panel-success" ng-if="newCampaign.actions=='Email/SMS'">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-send"></span> Preferred sending option
+                    </div>
+                    <div class="panel-body">
+                        <label class="radio-inline">
+                            <input class="option-input radio radioRules" ng-model="newCampaign.rules" value="Email" type="radio" name="RadioRules">Email</label>
+                        <label class="radio-inline">
+                            <input class="option-input radio radioRules" ng-model="newCampaign.rules" value="SMS" type="radio" name="RadioRules">SMS</label>
+                        <label class="radio-inline">
+                            <input class="option-input radio radioRules" ng-model="newCampaign.rules" value="Email &amp; SMS" type="radio" name="RadioRules">Email &amp; SMS</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="panel panel-success" ng-if="(newCampaign.actions=='SMS' || newCampaign.actions=='Email/SMS') && newCampaign.messConf !== 'Fixed message'">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-envelope"></span> SMS
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="text-center"><b>SMS editor</b></div>
+                                    <textarea class="form-control" placeholder="add message text" ng-model="newCampaign.messageUnsubscribeSMS" maxlength="150" title=""></textarea>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="text-center"><b>SMS viewer</b></div>
+                                    <textarea ng-disabled="true" class="form-control" readonly="readonly" placeholder="Message text.">{{newCampaign.messageUnsubscribeSMS}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="panel panel-success" ng-if="(newCampaign.actions=='Email' || newCampaign.actions=='Email/SMS') && newCampaign.messConf !== 'Fixed message'">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-envelope"></span> Email
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="text-center"><b>Email editor</b></div>
+                                    <div>
+                                        <span>From</span>
+                                        <span><input  class="form-control" maxlength="70"  type="text" ng-model="newCampaign.messageFrom" placeholder="Add sender"></span>
+                                    </div>
+                                    <div>
+                                        <span>Subject:</span>
+                                        <span><input class="form-control" maxlength="70"  type="text" ng-model="newCampaign.messageSubject" placeholder="Add subject"></span>
+                                    </div>
+                                    <div>
+                                        <span>Picture for body:</span>
+                                        <span>
+                              <input type='file' accept=".png" ng-model-instant ng-model="fileUrl" onchange="angular.element(this).scope().imageUpload(this)" />
+                              </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <span>Text to unsubscribe:</span>
+                                        <span>
+                              <textarea class="form-control" placeholder="add unsubscription message" ng-model="newCampaign.messageUnsubscribe" maxlength="150" title="">{{newCampaign.messageUnsubscribe}}</textarea>
+                              </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="text-center"><b>Email viewer</b></div>
+                                    <div>
+                                        <span>From</span>
+                                        <span><label class="form-control">{{newCampaign.messageFrom}}</label></span>
+                                    </div>
+                                    <div>
+                                        <span>Subject:</span>
+                                        <span><label class="form-control">{{newCampaign.messageSubject}}</label></span>
+                                    </div>
+                                    <div ng-if="stepsModel.length == 0">
+                                        <img class="coupon-img" src="images/coupon-dflt.png" alt="coupon image">
+                                    </div>
+                                    <div>
+                                        <span></span>
+                                        <span>
+                                 <div ng-repeat="step in stepsModel">
+                                    <img class="coupon-img" ng-src="{{step}}" alt="coupon image"/>
+                                 </div>
+                              </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <span><textarea ng-disabled="true" class="form-control" readonly="readonly" >{{newCampaign.messageUnsubscribe}}</textarea></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mar-bot-15">
+            <button type="button" class="btn btn-default" ng-click="saveCampaign(fortinetNewCmpDates, mytimepick)">
+                <span class="glyphicon glyphicon-ok"></span> Save campaign
+            </button>
+            <button type="button" class="btn btn-default" ng-click="goBack()">
+                <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+            </button>
+        </div>
+    </div>
+    <!--================================== UPDATE ======================================-->
+    <div class="col-sm-12" ng-if="!addCmp && update">
+        <h3 class="mar-bot-10">Update Campaign</h3>
+        <div class="row">
+            <div class="col-sm-7 col-md-8 col-lg-9">
+                <div class="back-link">
+                    <a ng-click="goBack()">
+               <span class="glyphicon glyphicon-menu-left"></span> Back to Campaign List
+               </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-4">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-bullhorn"></span> Campaign name
+                    </div>
+                    <div class="panel-body">
+                        <input class="form-control" type="text" name="name" required ng-model="editCamp.name" ng-disabled="fixName" placeholder="Enter Campaign name">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-show="editCamp.trigger=='WiFi logins today' || editCamp.trigger=='First time in Area today'">
+                <div class="panel panel-success secondLeftPanels">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Time frame
+                    </div>
+                    <div class="panel-body">
+                        <label>Campaign start and end:</label>
+                        <input class="date-picker-input pointer" type="daterange" ng-model="fortinetNewCmpDates" ranges="fortinetRanges">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-4">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-cog"></span> Campaign Configuration
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label>Trigger</label>
+                            <select class="form-control" ng-disabled="true">
+                                <option value="editCamp.trigger">{{editCamp.trigger}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" ng-if="editCamp.trigger == 'Once'">
+                            <label>Recipient</label>
+                            <select class="form-control" ng-disabled="true">
+                                <option value="editCamp.recipient">{{editCamp.recipient}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" ng-if="editCamp.trigger == 'First time in Area today'">
+                            <label>Trigering persons</label>
+                            <select class="form-control" ng-model="editCamp.tgrPersons">
+                                <option ng-option value="All accounts">All accounts</option>
+                                <option ng-option ng-repeat="list in campDetails.lists" value="{{list.name}}">{{list.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" ng-if="editCamp.trigger == 'First time in Area today'">
+                            <label>Recipient</label>
+                            <select class="form-control" ng-model='editCamp.recipient'>
+                                <option ng-option value="Person that triggered">Person that triggered</option>
+                                <option ng-option ng-repeat="list in campDetails.lists" value="{{list.name}}">{{list.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Action</label>
+                            <select class="form-control" ng-disabled="true">
+                                <option value="editCamp.trigger">{{editCamp.actions}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Delivery time</label>
+                            <select class="form-control" ng-disabled="true">
+                                <option value="editCamp.timeDelay">{{editCamp.timeDelay}}</option>
+                            </select>
+                        </div>
+                        <div ng-if="editCamp.trigger == 'Once'">
+                            <label class="date-elem">Date to send:</label>
+                            <div class="date-time-elem">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" ng-model="editCamp.startDateTime" ng-disabled="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-show="editCamp.trigger == 'Once' || editCamp.trigger == 'WiFi logins today'">
+                            <label class="time-elem">Time to send:</label>
+                            <div class='input-group date-time-elem'>
+                                <div uib-timepicker ng-model='tmVal' show-meridian="false"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="editCamp.trigger=='WiFi logins today'">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Stores
+                    </div>
+                    <div class="panel-body radioBntCenterInPanelBody">
+                        <label class="radio-inline">
+                            <input class="option-input radio radioArea" name="stores-radio" type="radio" value='All stores' ng-model='editCamp.store' ng-click="editCamp.store='All stores'">All stores
+                        </label>
+                        <label class="radio-inline">
+                            <input class="option-input radio radioArea" name="stores-radio" type="radio" value='Selected Stores' ng-model='editCamp.store' ng-click="editCamp.store='Selected Stores'">Select stores
+                        </label>
+                        <div ng-if="editCamp.store=='Selected Stores'">
+                            <select class="form-control" ng-model="editCamp.storeVal">
+                                <option ng-repeat="store in campDetails.stores" value="{{store.storeName}}">{{store.storeName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="editCamp.trigger=='First time in Area today'">
+                <div class="panel panel-success">
+                    <div class="panel-heading">Areas</div>
+                    <div class="panel-body">
+                        <div>
+                            <label class="radio-inline">
+                                <input class="option-input radio radioArea" name="RadioArea" ng-model="editCamp.areaInfo" type="radio" value="Area Type" ng-click="editCamp.campaignAreas = 'Area Type'">Area Type
+                            </label>
+                            <label class="radio-inline">
+                                <input class="option-input radio radioArea" name="RadioArea" ng-model="editCamp.areaInfo" type="radio" value="Area Interest Category" ng-click="editCamp.campaignAreas = 'Area Interest Category'">Area Interest Category
+                            </label>
+                            <label class="radio-inline">
+                                <input class="option-input radio radioArea" name="RadioArea" ng-model="editCamp.areaInfo" type="radio" value="Area" ng-click="editCamp.campaignAreas = 'Area'">Area
+                            </label>
+                        </div>
+                        <div ng-if="editCamp.campaignAreas === 'Area Type'">
+                            <select class="form-control" ng-init="editCamp.aList = 'null'" ng-model="editCamp.aList">
+                                <option ng-repeat="atype in campDetails.areaType" value="{{atype.name}}">{{atype.name}}</option>
+                            </select>
+                        </div>
+                        <div ng-if="editCamp.campaignAreas === 'Area Interest Category'">
+                            <select class="form-control" ng-init="editCamp.aList = 'null'" ng-model="editCamp.aList">
+                                <option ng-repeat="ctgry in campDetails.areaCategory" value="{{ctgry.name}}">{{ctgry.name}}</option>
+                            </select>
+                        </div>
+                        <div ng-if="editCamp.campaignAreas === 'Area'">
+                            <select class="form-control" ng-init="editCamp.aList = 'null'" ng-model="editCamp.aList">
+                                <option ng-repeat="area in campDetails.areas" value="{{area.name}}">{{area.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-if="editCamp.trigger=='First time in Area today'">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span> Message configuration
+                    </div>
+                    <div class="panel-body radioBntCenterInPanelBody">
+                        <label class="radio-inline">
+                            <input class="option-input radio radioMsg" ng-model="editCamp.messConf" value="Customized message" type="radio" name="RadioMsg" ng-click="editCamp.actions = 'SMS'" ng-disabled="true" />Customized message</label>
+                        <label class="radio-inline">
+                            <input class="option-input radio radioMsg" ng-model="editCamp.messConf" value="Fixed message" type="radio" name="RadioMsg" ng-click="editCamp.actions = ''" ng-disabled="true" />Fixed message</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="panel panel-success" ng-if="editCamp.actions=='Email/SMS'">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-send"></span> Preferred sending option
+                    </div>
+                    <div class="panel-body">
+                        <label class="radio-inline">
+                            <input class="option-input radio radioRules" ng-model="editCamp.rules" value="Email" type="radio" name="RadioRules">Email</label>
+                        <label class="radio-inline">
+                            <input class="option-input radio radioRules" ng-model="editCamp.rules" value="SMS" type="radio" name="RadioRules">SMS</label>
+                        <label class="radio-inline">
+                            <input class="option-input radio radioRules" ng-model="editCamp.rules" value="Email &amp; SMS" type="radio" name="RadioRules">Email &amp; SMS</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="panel panel-success" ng-if="(editCamp.actions=='SMS' || editCamp.actions=='Email/SMS') && editCamp.messConf !== 'Fixed message'">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-envelope"></span> SMS
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="text-center"><b>SMS editor</b></div>
+                                    <textarea class="form-control" placeholder="add message text" ng-model="editCamp.messageUnsubscribeSMS" ng-disabled="true" maxlength="150" title=""></textarea>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="text-center"><b>SMS viewer</b></div>
+                                    <textarea class="form-control" readonly="readonly" placeholder="Message text." ng-disabled="true">{{editCamp.messageUnsubscribeSMS}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="panel panel-success" ng-if="(editCamp.actions=='Email' || editCamp.actions=='Email/SMS') && editCamp.messConf !== 'Fixed message'">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-envelope"></span> Email
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="text-center"><b>Email editor</b></div>
+                                    <div>
+                                        <span>From</span>
+                                        <span><input  class="form-control" maxlength="70"  type="text" ng-model="editCamp.messageFrom" placeholder="Add sender" ng-disabled="true"></span>
+                                    </div>
+                                    <div>
+                                        <span>Subject:</span>
+                                        <span><input class="form-control" maxlength="70"  type="text" ng-model="editCamp.messageSubject" placeholder="Add subject" ng-disabled="true"></span>
+                                    </div>
+                                    <div>
+                                        <span>Picture for body:</span>
+                                        <span>
+                              <input type='file' accept=".png" ng-model-instant ng-model="fileUrl" onchange="angular.element(this).scope().imageUpload(this)" ng-disabled="true"/>
+                              </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <span>Text to unsubscribe:</span>
+                                        <span>
+                              <textarea class="form-control" placeholder="add unsubscription message" ng-model="editCamp.messageUnsubscribe" maxlength="150" ng-disabled="true">{{editCamp.messageUnsubscribe}}</textarea>
+                              </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="text-center"><b>Email viewer</b></div>
+                                    <div>
+                                        <span>From</span>
+                                        <span><label class="form-control">{{editCamp.messageFrom}}</label></span>
+                                    </div>
+                                    <div>
+                                        <span>Subject:</span>
+                                        <span><label class="form-control">{{editCamp.messageSubject}}</label></span>
+                                    </div>
+                                    <div>
+                                        <span></span>
+                                        <span>
+                                 <div>
+                                    <img class="coupon-img" ng-src="{{editCamp.couponUrl}}" alt="coupon image" target="_blank" />
+                                 </div>
+                              </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <span><textarea ng-disabled="true" class="form-control" readonly="readonly" >{{editCamp.messageUnsubscribe}}</textarea></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mar-bot-15">
+            <button type="button" class="btn btn-default" ng-click="updateCampaign(fortinetNewCmpDates, tmVal)">
+                <span class="glyphicon glyphicon-ok"></span> Save campaign
+            </button>
+            <button type="button" class="btn btn-default" ng-click="goBack()">
+                <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+            </button>
+        </div>
+    </div>
+</div>

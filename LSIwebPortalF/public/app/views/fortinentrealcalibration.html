@@ -1,0 +1,342 @@
+﻿<div class="row">
+
+    <div class="col-sm-4 col-md-3 mar_bot_15">
+        <div class="fortinet_tree">
+            <div class="title">{{treeList.name}}</div>
+            <ul ng-repeat="parentList in dynamicBranches" ng-init="value=storeInst[0].id">
+                <li ng-repeat="stores in parentList.stores">
+                    <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store', stores)">
+                    <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                    <ul>
+                        <li ng-repeat="flors in stores.floors">
+                            <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor', flors)">
+                            <label for="flors{{flors.id}}"><img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>
+                            <ul>
+                                <li ng-repeat="accessPt in flors.accessPoints">
+                                    <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id, 'AccessPoint', accessPt)">
+                                    <label for="accessPt{{accessPt.id}}">
+                                        <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li ng-repeat="accessPt in stores.accessPoints">
+                            <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint', accessPt)">
+                            <label for="accessPt{{accessPt.id}}">
+                                <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                            </label>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-repeat="childBranches in parentList.childBranches">
+                    <input type="radio" name="treeButton" ng-model="value" value="{{childBranches.id}}" id="branch{{childBranches.id}}" ng-click="getSelectedId(childBranches.id, 'Branch', childBranches)"> <img src="images/branch_icon.png" class="foldericons" />
+                    <label for="branch{{childBranches.id}}">{{childBranches.name}}</label>
+
+                    <ul>
+                        <li ng-repeat="stores in childBranches.stores">
+                            <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store', stores)">
+                            <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                            <ul>
+                                <li ng-repeat="flors in stores.floors">
+                                    <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor', flors)">
+                                    <label for="flors{{flors.id}}">
+                                        <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}
+                                    </label>
+                                    <ul>
+                                        <li ng-repeat="accessPt in flors.accessPoints">
+                                            <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint', accessPt)">
+                                            <label for="accessPt{{accessPt.id}}">
+                                                <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li ng-repeat="accessPt in stores.accessPoints">
+                                    <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint', accessPt)">
+                                    <label for="accessPt{{accessPt.id}}">
+                                        <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li ng-repeat="nestedChildBranches in childBranches.childBranches">
+                            <input type="radio" name="treeButton" ng-model="value" value="{{nestedChildBranches.id}}" id="branch{{nestedChildBranches.id}}" ng-click="getSelectedId(nestedChildBranches.id,'Branch', nestedChildBranches)"> <img src="images/branch_icon.png" class="foldericons" />
+                            <label for="branch{{nestedChildBranches.id}}">{{nestedChildBranches.name}}</label>
+
+                            <ul>
+                                <li ng-repeat="stores in nestedChildBranches.stores">
+                                    <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store', stores)">
+                                    <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+
+                                    <ul>
+                                        <li ng-repeat="flors in stores.floors">
+                                            <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor', flors)">
+                                            <label for="flors{{flors.id}}"> <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>
+                                            <ul>
+                                                <li ng-repeat="accessPt in flors.accessPoints">
+                                                    <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint', accessPt)">
+                                                    <label for="accessPt{{accessPt.id}}"> <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}</label>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li ng-repeat="accessPt in stores.accessPoints">
+                                            <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint', accessPt)">
+                                            <label for="accessPt{{accessPt.id}}">
+                                                <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li ng-repeat="insideNestedChildBranches in nestedChildBranches.childBranches">
+                                    <input type="radio" name="treeButton" ng-model="treeButton" value="{{insideNestedChildBranches.id}}" id="branch{{insideNestedChildBranches.id}}" ng-click="getSelectedId(insideNestedChildBranches.id, 'Branch', insideNestedChildBranches)"> <img src="images/branch_icon.png" class="foldericons" />
+                                    <label for="branch{{insideNestedChildBranches.id}}">{{insideNestedChildBranches.name}}</label>
+
+                                    <ul>
+                                        <li ng-repeat="stores in insideNestedChildBranches.stores">
+                                            <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store', stores)">
+                                            <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                                            <ul>
+                                                <li ng-repeat="flors in stores.floors">
+                                                    <input type="radio" name="treeButton" ng-model="treeButton" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor', flors)">
+                                                    <label for="flors{{flors.id}}"> <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>
+                                                    <ul>
+                                                        <li ng-repeat="accessPt in flors.accessPoints">
+                                                            <input type="checkbox" name="accessPt{{accessPt.id}}" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint', accessPt)">
+                                                            <label for="accessPt{{accessPt.id}}">
+                                                                <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li ng-repeat="accessPt in stores.accessPoints">
+                                                    <input type="checkbox" name="accessPt{{accessPt.id}}" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint', accessPt)">
+                                                    <label for="accessPt{{accessPt.id}}"> <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}</label>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+
+                                </li>
+
+                            </ul>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-8 col-md-9 pull-right">
+        <h3 class="mar_bot_30">Calibration</h3> 
+        <div class="alert alert-info alert-dismissable">
+            <a class="close" data-dismiss="alert" aria-label="close">×</a>
+            <strong>Info!</strong> For Realtime please select a Store or a Floor. For Calibration please select a single Access Point.
+        </div> 
+        <div class="realtime_top_panel" ng-if="realtimePanel">
+            <div class="panel_lefttext" ng-show="!forAccessPoints">RSSI filter:</div>
+            <div class="panel_lefttext" ng-show="forAccessPoints">RSSI threshold in database: {{slider.value}} db</div>   
+            <div class="realtime_slider">
+                <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options" ></rzslider>
+            </div>
+            <div class="set_new_btn" ng-show="forAccessPoints">
+                <button class="btn btn-default" ng-click="setNewRSSI(slider.value)"><span class="glyphicon glyphicon-refresh"></span> Set new RSSI value</button>
+            </div> 
+            <div class="play_pause_btn">
+                <div class="btn-group">              
+                    <button class="btn btn-default" ng-class="{active: play}" type="button" ng-click="playPauseBtn('play')">
+                        <span class="glyphicon glyphicon-play"></span>
+                    </button>
+                    <button class="btn btn-default" ng-class="{active: pause}" type="button" ng-click="playPauseBtn('pause')">
+                        <span class="glyphicon glyphicon-pause"></span>
+                    </button>                
+                </div>
+            </div>
+            <div class="mar_top_20" ng-if="!mapLoaded || !calibTableChart || !obsEmpEquChart"><img src="images/preloader.gif" width="30"></div>
+            <div class="clearfix"></div>
+        </div>        
+
+        <div class="panel-group realtime_panel" id="accordion">
+            <div class="panel panel-default" id="panel1" ng-show="mapLoaded">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-target="#collapseOne">
+                          Map View
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div id="map-canvas" class="heatmap_canvas"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="panel2" ng-if="calibTableChart">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-target="#collapseTwo">
+                          Currently Visible
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                    <div class="panel-body">                    
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover realtime_table mar_0">
+                                <tr>
+                                    <th>
+                                        <a class="table_hd_link" ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                                        Name
+                                        <span ng-show="sortType == 'name' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                                        <span ng-show="sortType == 'name' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                                        </a>
+                                    </th>
+                                    <th>
+                                     <a class="table_hd_link" ng-click="sortType = 'profile'; sortReverse = !sortReverse">
+                                        Profile
+                                        <span ng-show="sortType == 'profile' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                                        <span ng-show="sortType == 'profile' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a class="table_hd_link" ng-click="sortType = 'birthday'; sortReverse = !sortReverse">
+                                        Age
+                                        <span ng-show="sortType == 'birthday' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                                        <span ng-show="sortType == 'birthday' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a class="table_hd_link" ng-click="sortType = 'email'; sortReverse = !sortReverse">
+                                        Email
+                                        <span ng-show="sortType == 'email' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                                        <span ng-show="sortType == 'email' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a class="table_hd_link" ng-click="sortType = 'phone'; sortReverse = !sortReverse">
+                                        Phone<br/>Number
+                                        <span ng-show="sortType == 'phone' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                                        <span ng-show="sortType == 'phone' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a class="table_hd_link" ng-click="sortType = 'ap_serial'; sortReverse = !sortReverse">
+                                        AP serial
+                                        <span ng-show="sortType == 'ap_serial' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                                        <span ng-show="sortType == 'ap_serial' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a class="table_hd_link" ng-click="sortType = 'ap_mac'; sortReverse = !sortReverse">
+                                        Radio Mac
+                                        <span ng-show="sortType == 'ap_mac' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                                        <span ng-show="sortType == 'ap_mac' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a class="table_hd_link" ng-click="sortType = 'visitor_mac'; sortReverse = !sortReverse">
+                                        Client Mac
+                                        <span ng-show="sortType == 'visitor_mac' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                                        <span ng-show="sortType == 'visitor_mac' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a class="table_hd_link" ng-click="sortType = 'c_start'; sortReverse = !sortReverse">
+                                        Begin of last<br/>observation
+                                        <span ng-show="sortType == 'c_start' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                                        <span ng-show="sortType == 'c_start' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a class="table_hd_link" ng-click="sortType = 'c_end'; sortReverse = !sortReverse">
+                                        End of last<br/>observation
+                                        <span ng-show="sortType == 'c_end' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                                        <span ng-show="sortType == 'c_end' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a class="table_hd_link" ng-click="sortType = 'RSSI'; sortReverse = !sortReverse">
+                                        Average<br/>RSSI[db]
+                                        <span ng-show="sortType == 'RSSI' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                                        <span ng-show="sortType == 'RSSI' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                                        </a>
+                                    </th>
+                                </tr>
+                                <tr ng-repeat="row in realtimeData | orderBy:sortType:sortReverse | startForm:(currentPage - 1) * itemsPerPage | limitTo:itemsPerPage"  ng-class="row.deviceType == 'fixedEquipment'?'dark':''">
+                                    <td>{{row.name}}</td>
+                                    <td>{{}}</td>                                    
+                                    <td>{{row.birthday}}</td>
+                                    <td>{{row.email}}</td>
+                                    <td>{{row.phone}}</td>
+                                    <td>{{row.ap_serial}}</td>
+                                    <td>{{row.ap_mac}}</td>
+                                    <td>{{row.visitor_mac}}</td>
+                                    <td>{{row.c_start}}</td>
+                                    <td>{{row.c_end}}</td>
+                                    <td>{{row.RSSI}}</td>
+                                </tr>
+                            </table>                            
+                        </div> 
+                        <table class="table table-bordered realtime_table">
+                            <tr>
+                                <td width="50%">Visitors: <strong>{{cntVisitors}}</strong></td>
+                                <td  width="50%" class="dark">Employee &amp; Fixed Equipment: <strong>{{cntEmployee}}</strong></td>
+                            </tr>
+                        </table>
+                        <div class="mar_left_10" ng-if="realtimeData.length == 0">No data found.</div>
+                                                
+                        <div class="row" ng-show="realtimeData.length > 9">
+                            <div class="col-sm-6 pull-left mar_bot_10"><span class="mar_left_10">View 
+                                <select class="page_section" ng-init="viewby = pageOptions[0]" ng-model="viewby" ng-change="setItemsPerPage(viewby)" ng-options="option for option in pageOptions">
+                                </select> per page</span>
+                            </div> 
+                            <div class="col-sm-6 mar_bot_10">
+                                <span class="pull-right mar_right_10">
+                                    <ul uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages" items-per-page="itemsPerPage"></ul>   
+                                </span>
+                            </div>
+
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="panel3" ng-if="calibTableChart">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-target="#collapseThree">
+                          Clients grouped by RSSI values
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div class="mar_left_10" ng-if="realtimeData.length == 0">No data found.</div>
+                        <hc-chart class="chart" ng-if="calibTableChart && realtimeData.length > 0" options="personCalibrationChart">Placeholder for generic chart</hc-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="panel4" ng-if="forAccessPoints">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-target="#collapseFour">
+                          Observations from employees and equipment
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseFour" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div class="mar_left_10" ng-if="!obsEmpEqu">No data found.</div>
+                        <hc-chart class="chart" ng-if="obsEmpEqu" options="personCalibrationAPChart">Placeholder for generic chart</hc-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+

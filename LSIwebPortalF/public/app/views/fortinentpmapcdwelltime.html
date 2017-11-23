@@ -1,0 +1,120 @@
+﻿<div class="row">
+    
+    <div class="col-sm-4 col-md-3 mar_bot_15">
+        <div class="fortinet_tree">
+            <div class="title">{{treeList.name}}</div>
+            <ul ng-repeat="parentList in dynamicBranches" ng-init="value=storeInst[0].id">
+                <li ng-repeat="stores in parentList.stores">
+                    <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store')">
+                    <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                    <ul>
+                        <li ng-repeat="flors in stores.floors">
+                            <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor')">
+                            <label for="flors{{flors.id}}"><img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>
+                        </li>                        
+                    </ul>
+                </li>
+                <li ng-repeat="childBranches in parentList.childBranches">
+                    <input type="radio" name="treeButton" ng-model="value" value="{{childBranches.id}}" id="branch{{childBranches.id}}" ng-click="getSelectedId(childBranches.id, 'Branch')"> <img src="images/branch_icon.png" class="foldericons" />
+                    <label for="branch{{childBranches.id}}">{{childBranches.name}}</label>
+
+                    <ul>
+                        <li ng-repeat="stores in childBranches.stores">
+                            <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store')">
+                            <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                            <ul>
+                                <li ng-repeat="flors in stores.floors">
+                                    <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor')">
+                                    <label for="flors{{flors.id}}">
+                                        <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li ng-repeat="nestedChildBranches in childBranches.childBranches">
+                            <input type="radio" name="treeButton" ng-model="value" value="{{nestedChildBranches.id}}" id="branch{{nestedChildBranches.id}}" ng-click="getSelectedId(nestedChildBranches.id,'Branch')"> <img src="images/branch_icon.png" class="foldericons" />
+                            <label for="branch{{nestedChildBranches.id}}">{{nestedChildBranches.name}}</label>
+
+                            <ul>
+                                <li ng-repeat="stores in nestedChildBranches.stores">
+                                    <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store')">
+                                    <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+
+                                    <ul>
+                                        <li ng-repeat="flors in stores.floors">
+                                            <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor')">
+                                            <label for="flors{{flors.id}}"> <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li ng-repeat="insideNestedChildBranches in nestedChildBranches.childBranches">
+                                    <input type="radio" name="treeButton" ng-model="treeButton" value="{{insideNestedChildBranches.id}}" id="branch{{insideNestedChildBranches.id}}" ng-click="getSelectedId(insideNestedChildBranches.id, 'Branch')"> <img src="images/branch_icon.png" class="foldericons" />
+                                    <label for="branch{{insideNestedChildBranches.id}}">{{insideNestedChildBranches.name}}</label>
+
+                                    <ul>
+                                        <li ng-repeat="stores in insideNestedChildBranches.stores">
+                                            <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store')">
+                                            <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                                            <ul>
+                                                <li ng-repeat="flors in stores.floors">
+                                                    <input type="radio" name="treeButton" ng-model="treeButton" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor')">
+                                                    <label for="flors{{flors.id}}"> <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="col-xs-12 col-sm-8 col-md-9 pull-right">
+        <h3 class="mar_bot_30">Popularity Heatmap / Cumulative dwell time per day</h3>
+        <p class="notification_msg mar_bot_15">{{displayMessage}} <strong>{{visitorCount}}</strong></p>
+        <div class="heatmap_area">        
+        <div ng-if="maploader" class="map_loader"><span class="map_loader_inner"><img src="images/preloader.gif" width="30"></span></div>
+            <div id="panel" class="heatmap_area_top">
+
+                <span class="inline_block mar_right_20 mar_bot_10">
+                    Date:
+                     <input type="text" class="map_input pointer" uib-datepicker-popup="{{dateFormat}}" ng-model="selectedDate" name="selectedDate" is-open="availableDatePopup.opened" datepicker-options="availableDateOptions" close-text="Close" ng-click="OpenAvailableDate()" ng-change="getWifiDate()" placeholder="YYYY-MM-DD" readonly="true"  />
+                    
+                </span>
+
+                <span class="inline_block mar_right_20 mar_bot_10">Display markers: <input ng-change="toggleMarkers(locationMarkers)" ng-model="locationMarkers" ng-init="locationMarkers = true" type="checkbox"></span>
+                <span class="inline_block mar_right_20 mar_bot_10">
+                    Opacity:
+                    <input class="map_range" type="range" ng-change="changeOpacity(opacitySlider)" ng-model="opacitySlider" ng-init="opacitySlider = 0.9" min="0" max="1" step="0.1" ng-disabled="rangeSlider" >{{opacitySlider}}
+                </span>
+                <span class="inline_block mar_bot_10">
+                    Radius:
+                    <input class="map_range" type="range" ng-change="changeRadius(radiusSlider)" ng-model="radiusSlider" ng-init="radiusSlider = 40" min="10" max="60" step="10" ng-disabled="rangeSlider" >{{radiusSlider}}
+                </span>
+
+            </div>
+            <div id="map-canvas" class="heatmap_canvas"></div>
+            <div class="map_key">
+                <table>
+                    <tbody><tr>
+                        <td>
+                            <img width="20px" src="https://chart.googleapis.com/chart?chst=d_map_pin_letter&amp;chld=42%7C67DDDD%7C000000"> 
+                        </td>
+                        <td>
+                            Cumulative dwell time shows where people spent their time during the selected day. Red areas indicate a lot of time spent.
+                        </td>
+                    </tr>
+                </tbody></table>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+

@@ -1,0 +1,154 @@
+﻿<div class="row">
+    <div class="col-sm-12">
+        <h3 class="mar-bot-10">Campaign Result</h3>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="mar-bot-10"><strong>Scheduled messaging</strong></div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" ng-click="getCampResults(constants.TGR_CALL_VAL.t1)" ng-class="{active: activeTgr == constants.TGR_CALL_VAL.t1}">{{constants.TRIGGER_NAMES.t1}}</button>
+                            <button type="button" class="btn btn-default" ng-click="getCampResults(constants.TGR_CALL_VAL.t3)" ng-class="{active: activeTgr == constants.TGR_CALL_VAL.t3}">{{constants.TRIGGER_NAMES.t3}}</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="mar-bot-10"><strong>Live messaging</strong></div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" ng-click="getCampResults(constants.TGR_CALL_VAL.t2)" ng-class="{active: activeTgr == constants.TGR_CALL_VAL.t2}">{{constants.TRIGGER_NAMES.t2}}</button>
+                            <button type="button" class="btn btn-default" ng-click="getCampResults(constants.TGR_CALL_VAL.t4)" ng-class="{active: activeTgr == constants.TGR_CALL_VAL.t4}">{{constants.TRIGGER_NAMES.t4}}</button>
+                            <button type="button" class="btn btn-default" ng-click="getCampResults(constants.TGR_CALL_VAL.t5)" ng-class="{active: activeTgr == constants.TGR_CALL_VAL.t5}">{{constants.TRIGGER_NAMES.t5}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default" ng-if="showData">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-th"></span> Campaigns
+            </div>
+            <div class="panel-body panel-no-padding">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-Cstriped table-hover">
+                        <tr>
+                            <th class="text-center" ng-repeat="header in tableHeaders" rowspan="{{header.rows}}" colspan="{{header.cols}}">{{header.text}}</th>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">SMS</th>
+                        </tr>
+                        <tr ng-repeat="result in results | startForm:(currentMainPage - 1) * itemsPerMainPage | limitTo:itemsPerMainPage">
+                            <td>{{result.campaignName}}</td>
+                            <td ng-if="result.name == constants.TRIGGER_NAMES.t1">{{result.date}}</td>
+                            <td ng-if="result.name != constants.TRIGGER_NAMES.t1">{{result.startDate}}</td>
+                            <td ng-if="result.name != constants.TRIGGER_NAMES.t1">{{result.endDate}}</td>
+                            <td>{{result.messageTextSms}} </td>
+                            <td class="text-center"><img src={{result.couponUrl}} alt="coupon image" width="50"></td>
+                            <td>{{result.numberOfEmails}}</td>
+                            <td>{{result.numberOfSms}}</td>
+                            <td ng-if="result.name == constants.TRIGGER_NAMES.t4">{{result.aresTypeInfo}} </td>
+                            <td ng-if="result.name == constants.TRIGGER_NAMES.t5">{{result.threshold}} </td>
+                            <td>{{result.numberEmailsOpened}}</td>
+                            <td>{{result.numberUnsubscribedViaEmail}}</td>
+                            <td ng-if="result.name == constants.TRIGGER_NAMES.t3">{{result.storesInfo}}</td>
+                            <td>
+                                <button ng-click="getExecDetails(result.campaignName,result.name,result.campaignId)" class="btn btn-default form-control">{{button_text}}</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="mar-left-10" ng-if="results.length == 0">No Results.</div>
+            <div class="row" ng-show="results.length > 5">
+                <div class="col-sm-6 pull-left mar-bot-10"><span class="mar-left-10">View 
+         <select class="page-section" ng-model="viewbyM" ng-change="setItemsPerMainPage(viewbyM)" ng-options="option for option in mainPageOptions">
+         </select> per page</span>
+                </div>
+                <div class="col-sm-6 mar-bot-10">
+                    <span class="pull-right mar-right-10">
+            <ul uib-pagination total-items="totalMainItems" ng-model="currentMainPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages" items-per-page="itemsPerMainPage"></ul>
+         </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-offset-3 col-sm-6">
+                <div class="panel panel-default" ng-if="showSumry">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-th"></span> Daily summary ({{campName}})
+                    </div>
+                    <div class="panel-body panel-no-padding">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-Cstriped table-hover">
+                                <tr>
+                                    <th ng-repeat="field in fields" rowspan="{{field.header.rows}}" colspan="{{field.header.cols}}">
+                                        <a class="table-hd-link" ng-click="sortType = 'field.value'; sortReverse = !sortReverse">
+                        {{field.header}}
+                        <span ng-show="sortType == 'field.value' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                        <span ng-show="sortType == 'field.value' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                                    </th>
+                                    <th ng-if="button_text=='Daily summary'">Details</th>
+                                </tr>
+                                <tr ng-repeat="data in smryData | orderBy:sortType:sortReverse | startForm:(currentPage - 1) * itemsPerPage | limitTo:itemsPerPage">
+                                    <td ng-repeat="field in fields">{{data[field.value]}}</td>
+                                    <td ng-if="button_text=='Daily summary'">
+                                        <button ng-click="getDetails(data.timeSent,data.date)" class="btn btn-default form-control">Execution details</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="mar-left-10" ng-if="smryData.length == 0">No Results.</div>
+                    <div class="row" ng-show="smryData.length > 5">
+                        <div class="col-sm-6 pull-left mar-bot-10"><span class="mar-left-10">View 
+               <select class="page-section" ng-model="viewby" ng-change="setItemsPerPage(viewby)" ng-options="option for option in pageOptions">
+               </select> per page</span>
+                        </div>
+                        <div class="col-sm-6 mar-bot-10">
+                            <span class="pull-right mar-right-10">
+                  <ul uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages" items-per-page="itemsPerPage"></ul>
+               </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-offset-3 col-sm-6">
+                <div class="panel panel-default" ng-if="exDtails">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-th"></span> Campaign execution details ({{exDate}})
+                    </div>
+                    <div class="panel-body panel-no-padding">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-Cstriped table-hover">
+                                <tr>
+                                    <th ng-repeat="field in execFields" rowspan="{{field.header.rows}}" colspan="{{field.header.cols}}">
+                                        <a class="table-hd-link" ng-click="sortType = 'field.value'; sortReverse = !sortReverse">
+                        {{field.header}}
+                        <span ng-show="sortType == 'field.value' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+                        <span ng-show="sortType == 'field.value' && sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                                    </th>
+                                </tr>
+                                <tr ng-repeat="data in execData | orderBy:sortType:sortReverse | startForm:(currentPage - 1) * itemsPerPage | limitTo:itemsPerPage">
+                                    <td ng-repeat="field in execFields">{{data[field.value]}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="mar-left-10" ng-if="execData.length == 0">No Results.</div>
+                    <div class="row" ng-show="execData.length > 5">
+                        <div class="col-sm-6 pull-left mar-bot-10"><span class="mar-left-10">View 
+               <select class="page-section" ng-model="viewby" ng-change="setItemsPerPage(viewby)" ng-options="option for option in pageOptions">
+               </select> per page</span>
+                        </div>
+                        <div class="col-sm-6 mar-bot-10">
+                            <span class="pull-right mar-right-10">
+                  <ul uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages" items-per-page="itemsPerPage"></ul>
+               </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

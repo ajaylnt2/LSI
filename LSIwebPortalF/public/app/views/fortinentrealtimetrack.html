@@ -1,0 +1,222 @@
+﻿<div class="row">
+   <div class="col-sm-4 col-md-3 mar_bot_15">
+      <div class="fortinet_tree">
+         <div class="title">{{treeList.name}}</div>
+         <ul ng-repeat="parentList in dynamicBranches" ng-init="value=storeInst[0].id">
+            <li ng-repeat="stores in parentList.stores">
+               <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store', stores)">
+               <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+               <ul>
+                  <li ng-repeat="flors in stores.floors">
+                     <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor', flors)">
+                     <label for="flors{{flors.id}}"><img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>
+                  </li>
+               </ul>
+            </li>
+            <li ng-repeat="childBranches in parentList.childBranches">
+               <input type="radio" name="treeButton" ng-model="value" value="{{childBranches.id}}" id="branch{{childBranches.id}}" ng-click="getSelectedId(childBranches.id, 'Branch', childBranches)"> <img src="images/branch_icon.png" class="foldericons" />
+               <label for="branch{{childBranches.id}}">{{childBranches.name}}</label>
+               <ul>
+                  <li ng-repeat="stores in childBranches.stores">
+                     <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store', stores)">
+                     <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                     <ul>
+                        <li ng-repeat="flors in stores.floors">
+                           <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor', flors)">
+                           <label for="flors{{flors.id}}">
+                           <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}
+                           </label>
+                        </li>
+                     </ul>
+                  </li>
+                  <li ng-repeat="nestedChildBranches in childBranches.childBranches">
+                     <input type="radio" name="treeButton" ng-model="value" value="{{nestedChildBranches.id}}" id="branch{{nestedChildBranches.id}}" ng-click="getSelectedId(nestedChildBranches.id,'Branch', nestedChildBranches)"> <img src="images/branch_icon.png" class="foldericons" />
+                     <label for="branch{{nestedChildBranches.id}}">{{nestedChildBranches.name}}</label>
+                     <ul>
+                        <li ng-repeat="stores in nestedChildBranches.stores">
+                           <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store', stores)">
+                           <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                           <ul>
+                              <li ng-repeat="flors in stores.floors">
+                                 <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor', flors)">
+                                 <label for="flors{{flors.id}}"> <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>                                            
+                              </li>
+                           </ul>
+                        </li>
+                        <li ng-repeat="insideNestedChildBranches in nestedChildBranches.childBranches">
+                           <input type="radio" name="treeButton" ng-model="treeButton" value="{{insideNestedChildBranches.id}}" id="branch{{insideNestedChildBranches.id}}" ng-click="getSelectedId(insideNestedChildBranches.id, 'Branch', insideNestedChildBranches)"> <img src="images/branch_icon.png" class="foldericons" />
+                           <label for="branch{{insideNestedChildBranches.id}}">{{insideNestedChildBranches.name}}</label>
+                           <ul>
+                              <li ng-repeat="stores in insideNestedChildBranches.stores">
+                                 <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store', stores)">
+                                 <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                                 <ul>
+                                    <li ng-repeat="flors in stores.floors">
+                                       <input type="radio" name="treeButton" ng-model="treeButton" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor', flors)">
+                                       <label for="flors{{flors.id}}"> <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>                                                   
+                                    </li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </li>
+                     </ul>
+                  </li>
+               </ul>
+            </li>
+         </ul>
+      </div>
+   </div>
+   <div class="col-xs-12 col-sm-8 col-md-9 pull-right">
+      <h3 class="mar_bot_30">Realtime tracking</h3>
+      <div ng-if="realtimeInfo" class="alert alert-info alert-dismissable">
+         <a class="close" data-dismiss="alert" aria-label="close">×</a>
+         <strong>Info!</strong> Please select a Store or Floor for tracking.
+      </div>
+      <div class="realtime_top_panel" ng-show="!realtimeInfo">
+         <div class="play_pause_btn">
+            <div class="btn-group btn-group-sm">              
+               <button class="btn btn-default" ng-class="{active: locationMap}" type="button" ng-click="toggleMapBtn('locationMap')">
+               Location Map
+               </button>
+               <button class="btn btn-default" ng-class="{active: densityHeatmap}" type="button" ng-click="toggleMapBtn('densityHeatmap')">
+               Density Heatmap
+               </button>                
+            </div>
+         </div>
+         <div class="set_new_btn width_220">
+            <div class="input-group add-on input-group-sm">
+               <input class="form-control" placeholder="Search mac-address" ng-model="searchMac" type="text">
+               <div class="input-group-btn">
+                  <button class="btn btn-default" type="button" ng-click ="searchMacValue(searchMac)"><span class="glyphicon glyphicon-search"></span></button>
+               </div>
+            </div>
+         </div>
+         <div class="play_pause_btn">
+            <div class="btn-group btn-group-sm">              
+               <button class="btn btn-default" ng-class="{active: visitors}" type="button" ng-click="visitors = !visitors">
+               Visitors
+               </button>
+               <button class="btn btn-default" ng-class="{active: empEquip}" type="button" ng-click="empEquip = !empEquip">
+               Employees &amp; Equipment
+               </button>                
+            </div>
+         </div>
+         <div class="set_new_btn">
+            <div class="btn-group btn-group-sm">
+               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+               <span class="glyphicon glyphicon-cog"></span> <span class="caret"></span>
+               </button>
+               <ul class="dropdown-menu dropdown-menu-right">
+                  <li class="dropdown-header">Filtering options</li>
+                  <li ng-hide="algorithm == 'proximity'">
+                     <div class="listitems">
+                        <input type="checkbox" ng-model="showDevInside" ng-init="showDevInside=false"> <span>Show Devices only<br>inside the perimeter<br> of the APs</span>
+                     </div>
+                  </li>
+                  <li>
+                     <div class="listitems">
+                        <input type="checkbox" ng-model="exclRandomMacs" ng-init="exclRandomMacs=true"> <span>Exclude Random<br>MACs</span>
+                     </div>
+                  </li>
+                  <li class="dropdown-header">Appearance</li>
+                  <li ng-show="false">
+                     <div class="listitems">
+                        <input type="checkbox" ng-model="showAreas" ng-init="showAreas=false"> <span>Show Areas</span>
+                     </div>
+                  </li>
+                  <li>
+                     <div class="listitems">
+                        <input type="checkbox" ng-change="toggleMarkers(locationMarkers)" ng-model="locationMarkers" ng-init="locationMarkers = true" > <span>Show Access Points</span>
+                     </div>
+                  </li>
+                  <li ng-show="densityHeatmap" class="dropdown-header">Opacity <span class="font_small">({{opacitySlider}})</span></li>
+                  <li ng-show="densityHeatmap">
+                     <div class="listitems">
+                        <section>                                
+                           <input type="range" ng-change="changeOpacity(opacitySlider)" ng-model="opacitySlider" ng-init="opacitySlider = 0.9" min="0" max="1" step="0.1" >
+                        </section>
+                     </div>
+                  </li>
+                  <li ng-show="densityHeatmap" class="dropdown-header">Radius <span class="font_small">({{radiusSlider}})</span></li>
+                  <li ng-show="densityHeatmap">
+                     <div class="listitems">
+                        <section>                                
+                           <input type="range" ng-change="changeRadius(radiusSlider)" ng-model="radiusSlider" ng-init="radiusSlider = 40" min="10" max="60" step="10" >
+                        </section>
+                     </div>
+                  </li>
+                  <li ng-show="false" ng-init="algorithm = 'WA'">
+                     <div class="listitems">
+                        <input type="radio" ng-model="algorithm" name="algorithm" value="proximity"> <span>Proximity detection</span>
+                     </div>
+                     <div class="listitems">
+                        <input type="radio" ng-model="algorithm" name="algorithm" value="WA"> <span>WA</span>
+                     </div>
+                  </li>
+               </ul>
+            </div>
+         </div>
+         <div class="play_pause_btn">
+            <div class="btn-group btn-group-sm">              
+               <button class="btn btn-default" ng-class="{active: play}" type="button" ng-click="playPauseBtn('play')">
+               <span class="glyphicon glyphicon-play"></span>
+               </button>
+               <button class="btn btn-default" ng-class="{active: pause}" type="button" ng-click="playPauseBtn('pause')">
+               <span class="glyphicon glyphicon-pause"></span>
+               </button>                
+            </div>
+         </div>
+         <div class="clearfix"></div>
+      </div>
+      <div class="panel-group realtime_panel" id="accordion" ng-show="!realtimeInfo">
+         <div class="panel panel-default" id="panel1">
+            <div class="panel-heading">
+               <h4 class="panel-title">
+                  <a data-toggle="collapse" data-target="#collapseOne">
+                  Map View <span ng-if="maploader">loading</span>
+                  </a>
+               </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+               <div class="panel-body">
+                  <div id="map-canvas" class="heatmap_canvas"></div>
+               </div>
+            </div>
+         </div>
+         <div class="panel panel-default" id="panel2" >
+            <div class="panel-heading">
+               <h4 class="panel-title">
+                  <a data-toggle="collapse" data-target="#collapseTwo">
+                  Localization status
+                  </a>
+               </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse in" ng-if="tableView">
+               <div class="panel-body">
+                  <div class="table-responsive">
+                     <table class="table table-bordered table-hover mar_0">
+                        <thead>
+                           <tr>
+                              <th rowspan="2" class="text-right">Number of access points</th>
+                              <th rowspan="2" class="text-right">
+                                 Number of Devices 
+                                 <p class="font_small">concurrently seen by the number<br> of access points in the left column</p>
+                              </th>
+                              <th rowspan="2">Mode possible</th>
+                              <th rowspan="2">Current mode: {{selected}}</th>
+                              <th colspan="3">Devices with last update more recent than</th>
+                           </tr>
+                           <tr>
+                              <th>&gt; 10 sec</th>
+                              <th>&lt;= 10 sec</th>
+                           </tr>
+                        </thead>
+                        <tbody ng-bind-html="tableResult"> </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

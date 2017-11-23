@@ -1,0 +1,38 @@
+﻿<h2 class="page_title">User Details</h2>
+
+<div class="row">
+    <div class="col-sm-12 mar_bot_10 text-right">
+        <button type="button" class="btn redcolor_btn" ng-click="addUser()"><span class="glyphicon glyphicon-plus"></span> Add</button>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table_Cstriped table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Accessable To</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="userDetails in userDetails">
+                        <td>{{userDetails.UserName}}</td>
+                        <td>{{userDetails.EmailId}}</td>
+                        <td>{{userDetails.Role}}</td>
+                        <td>
+                           <p ng-if="userDetails.CStoreAnalytics">CStore Analytics</p>
+                           <p ng-if="userDetails.CameraAnalytics">Camera Analytics</p>
+                           <p ng-if="userDetails.WifiAnalytics">Wifi Analytics</p>
+                        </td>
+                        <td class="text-nowrap text-center"><a class="mar_right_20" ng-click="editUser(userDetails.UserId)"><span class="glyphicon glyphicon-edit"></span></a> <a ng-click="deleteUser(userDetails.UserId)"><span class="glyphicon glyphicon-trash"></span></a></td>
+                    </tr>
+                   
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

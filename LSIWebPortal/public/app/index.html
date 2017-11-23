@@ -1,0 +1,45 @@
+﻿<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1; text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <title>LSI Web Portal</title>
+    <link href="library/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="library/datepicker/daterangepicker.css" rel="stylesheet" />
+    <link href="library/datepicker/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <link href='library/rzslider/rzslider.css' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body data-ng-app="lsi">
+    <div class="wrapper">
+        <div class="wrapper-inside">
+            <div ui-view></div>
+        </div>
+    </div>
+    <footer class="footer">
+        <p class="footer-text">&copy; 2017 LSI Industries Inc. All rights reserved.</p>
+    </footer>
+
+    <!-- script links -->
+    <script src="js/vendor.bundle.js"></script>
+    <script src="js/app.bundle.js"></script>
+    <script src="library/datepicker/moment.min.js"></script>
+    <script src="library/datepicker/moment-timezone-with-data.min.js"></script>
+    <script src="library/highcharts/highcharts.js"></script>
+    <script src="library/highcharts/heatmap.js"></script>
+    <script src="library/highcharts/exporting.js"></script>
+
+    <!-- Reports -->
+    <script src="library/alsql/alasql.min.js"></script>
+    <script src="library/alsql/xlsx.core.min.js"></script>
+    
+    <!-- Heat map google api -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYLxoR2o0tiB405aP2gy-O26ldjp2Pw3c&libraries=visualization"></script>
+    <script src="library/googlemaps/markerwithlabel.js"></script>
+</body>
+
+</html>

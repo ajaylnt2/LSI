@@ -1,0 +1,407 @@
+﻿<div class="row">
+    <div class="col-sm-4 col-md-3 mar-bot-15">
+        <div class="fortinet-tree">
+            <div class="title">{{treeList.name}}</div>
+            <ul ng-repeat="parentList in dynamicBranches" ng-init="value=storeInst[0].id">
+                <li ng-repeat="stores in parentList.stores">
+                    <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store')">
+                    <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                    <ul>
+                        <li ng-repeat="flors in stores.floors">
+                            <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor')">
+                            <label for="flors{{flors.id}}"><img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>
+                            <ul>
+                                <li ng-repeat="accessPt in flors.accessPoints">
+                                    <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id, 'AccessPoint')">
+                                    <label for="accessPt{{accessPt.id}}">
+                                        <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </li>
+                        <li ng-repeat="accessPt in stores.accessPoints">
+                            <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint')">
+                            <label for="accessPt{{accessPt.id}}">
+                                <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                            </label>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-repeat="childBranches in parentList.childBranches">
+                    <input type="radio" name="treeButton" ng-model="value" value="{{childBranches.id}}" id="branch{{childBranches.id}}" ng-click="getSelectedId(childBranches.id, 'Branch')"> <img src="images/branch_icon.png" class="foldericons" />
+                    <label for="branch{{childBranches.id}}">{{childBranches.name}}</label>
+                    <ul>
+                        <li ng-repeat="stores in childBranches.stores">
+                            <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store')">
+                            <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                            <ul>
+                                <li ng-repeat="flors in stores.floors">
+                                    <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor')">
+                                    <label for="flors{{flors.id}}">
+                                        <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}
+                                    </label>
+                                    <ul>
+                                        <li ng-repeat="accessPt in flors.accessPoints">
+                                            <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint')">
+                                            <label for="accessPt{{accessPt.id}}">
+                                                <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li ng-repeat="accessPt in stores.accessPoints">
+                                    <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint')">
+                                    <label for="accessPt{{accessPt.id}}">
+                                        <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </li>
+                        <li ng-repeat="nestedChildBranches in childBranches.childBranches">
+                            <input type="radio" name="treeButton" ng-model="value" value="{{nestedChildBranches.id}}" id="branch{{nestedChildBranches.id}}" ng-click="getSelectedId(nestedChildBranches.id,'Branch')"> <img src="images/branch_icon.png" class="foldericons" />
+                            <label for="branch{{nestedChildBranches.id}}">{{nestedChildBranches.name}}</label>
+                            <ul>
+                                <li ng-repeat="stores in nestedChildBranches.stores">
+                                    <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store')">
+                                    <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                                    <ul>
+                                        <li ng-repeat="flors in stores.floors">
+                                            <input type="radio" name="treeButton" ng-model="value" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor')">
+                                            <label for="flors{{flors.id}}"> <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>
+                                            <ul>
+                                                <li ng-repeat="accessPt in flors.accessPoints">
+                                                    <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint')">
+                                                    <label for="accessPt{{accessPt.id}}"> <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}</label>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li ng-repeat="accessPt in stores.accessPoints">
+                                            <input type="radio" name="treeButton" ng-model="value" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint')">
+                                            <label for="accessPt{{accessPt.id}}">
+                                                <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li ng-repeat="insideNestedChildBranches in nestedChildBranches.childBranches">
+                                    <input type="radio" name="treeButton" ng-model="treeButton" value="{{insideNestedChildBranches.id}}" id="branch{{insideNestedChildBranches.id}}" ng-click="getSelectedId(insideNestedChildBranches.id, 'Branch')"> <img src="images/branch_icon.png" class="foldericons" />
+                                    <label for="branch{{insideNestedChildBranches.id}}">{{insideNestedChildBranches.name}}</label>
+                                    <ul>
+                                        <li ng-repeat="stores in insideNestedChildBranches.stores">
+                                            <input type="radio" name="treeButton" id="stores{{stores.id}}" ng-model="value" value="{{stores.id}}" ng-click="getSelectedId(stores.id,'Store')">
+                                            <label for="stores{{stores.id}}"><img src="images/home_icon.png" class="foldericons" /> {{stores.name}}</label>
+                                            <ul>
+                                                <li ng-repeat="flors in stores.floors">
+                                                    <input type="radio" name="treeButton" ng-model="treeButton" value="{{flors.id}}" id="flors{{flors.id}}" ng-click="getSelectedId(flors.id,'Floor')">
+                                                    <label for="flors{{flors.id}}"> <img src="images/floor_icon.png" class="foldericons" /> {{flors.name}}</label>
+                                                    <ul>
+                                                        <li ng-repeat="accessPt in flors.accessPoints">
+                                                            <input type="checkbox" name="accessPt{{accessPt.id}}" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint')">
+                                                            <label for="accessPt{{accessPt.id}}">
+                                                                <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li ng-repeat="accessPt in stores.accessPoints">
+                                                    <input type="checkbox" name="accessPt{{accessPt.id}}" value="{{accessPt.id}}" id="accessPt{{accessPt.id}}" ng-click="getSelectedId(accessPt.id,'AccessPoint')">
+                                                    <label for="accessPt{{accessPt.id}}"> <img src="images/accesspoint_icon.png" class="foldericons" /> {{accessPt.name}}</label>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-9 pull-right">
+        <h3 class="mar-bot-30">Capture Rate</h3>
+        <div class="form-group inline-elements forti-daterange">
+            <label class="date-label">Date Range:</label>
+            <input class="form-control pointer" type="daterange" ng-model="fortinetCRDates" ranges="fortinetRanges" readonly="true">
+        </div>
+        <div class="form-group inline-elements">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Filter <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <div class="listitems">
+                            <input type="checkbox" ng-model="fUseSampling" ng-init="fUseSampling=true"> <span>Use sampling</span>
+                        </div>
+                    </li>
+                    <li ng-show="fUseSampling" class="dropdown-header">Sampling factor</li>
+                    <li ng-show="fUseSampling">
+                        <div class="listitems">
+                            <section>
+                                <input type="range" min="1" max="16" step="1" ng-model="fSamplingFactor" ng-init="fSamplingFactor=3">
+                                <span class="font-small">{{fSamplingFactor}}</span>
+                            </section>
+                        </div>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <div class="listitems">
+                            <input type="checkbox" ng-model="fRandomMacs" ng-init="fRandomMacs=true"> <span>Filter Random Macs</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="listitems">
+                            <input type="checkbox" ng-model="fEmp" ng-init="fEmp=true"> <span>Filter Employees</span>
+                        </div>
+                    </li>
+                    <li ng-show="fEmp" class="dropdown-header">Dwell Time Of Employee [hours]</li>
+                    <li ng-show="fEmp">
+                        <div class="listitems">
+                            <section>
+                                <input type="range" min="1" max="16" step="1" ng-model="fDwellTimeEmp" ng-init="fDwellTimeEmp=8">
+                                <span class="font-small">{{fDwellTimeEmp}}</span>
+                            </section>
+                        </div>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li ng-show="false">
+                        <div class="listitems">
+                            <input type="checkbox" ng-model="fDeviceOUIs" ng-init="fDeviceOUIs=true"> <span>Filter Device OUIs</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="listitems">
+                            <input type="checkbox" ng-model="fFixedEquipment" ng-init="fFixedEquipment=true"> <span>Filter Fixed Equipment</span>
+                        </div>
+                    </li>
+                    <li class="dropdown-header">Min count of observations</li>
+                    <li>
+                        <div class="listitems">
+                            <div class="input-group">
+                                <input type="text" class="form-control filter-inputgroup" ng-model="fMinCountObs" ng-init="fMinCountObs=1000" placeholder="Min count of obs" min="5">
+                                <div class="input-group-addon">Obs</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown-header">STDDEV of positions in meters</li>
+                    <li>
+                        <div class="listitems">
+                            <div class="input-group">
+                                <input type="text" class="form-control filter-inputgroup" ng-model="fSTDDEVofPosMeters" ng-init="fSTDDEVofPosMeters=5" placeholder="STDDEV of poitions" min="5">
+                                <div class="input-group-addon">m</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-group inline-elements">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Options <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-header">Time To Merge</li>
+                    <li>
+                        <div class="listitems">
+                            <div class="input-group">
+                                <input type="text" class="form-control filter-inputgroup" placeholder="Time To Merge" ng-model="fTimeMerge" ng-init="fTimeMerge=5">
+                                <Date class="input-group-addon">Min</Date>
+                            </div>
+                        </div>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li class="filter-centertext">Dwell time threshold</li>
+                    <li class="dropdown-header">Visited Time</li>
+                    <li>
+                        <div class="listitems">
+                            <div class="input-group width-150">
+                                <input type="text" class="form-control filter-inputgroup" placeholder="Visited Time" ng-model="fVisitedTime" ng-init="fVisitedTime=3">
+                                <div class="input-group-addon">Min</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown-header">Engaged Time</li>
+                    <li>
+                        <div class="listitems">
+                            <div class="input-group">
+                                <input type="text" class="form-control filter-inputgroup" placeholder="Engaged Time" ng-model="fEngagedTime" ng-init="fEngagedTime=20">
+                                <div class="input-group-addon">Min</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <button class="btn btn-primary" value="Submit" ng-click="getCaptureRateDetails()">Submit</button>
+        <hr />
+        <div class="col-md-12" ng-if="!loader && capturedValues.length > 0">
+            <hc-chart ng-if="graphVisible" options="fortinenthomeChart" class="chart">Placeholder for generic chart</hc-chart>
+        </div>
+        <p ng-if="treeSelectedStatus && !loader" class="notification-msg">Please select branch or store or floor or accesspoint and click on submit button</p>
+        <p ng-if="loader"><img src="images/preloader.gif" width="30"></p>
+        <p ng-if="!loader && capturedValues.length==0">No data found</p>
+        <p ng-if="!loader && errorCapt" class="notification-msg">{{errorMsgCapt}}</p>
+        <h3 class="mar-bot-10 mar-top-20">Frequency</h3>
+        <p class="mar-bot-30"><strong>Frequency is the average time between observations for a Device.</strong></p>
+        <div class="form-group inline-elements forti-daterange">
+            <label class="date-label">Date Range:</label>
+            <input class="form-control pointer" type="daterange" ng-model="fortinetFrqDates" ranges="fortinetRanges" readonly="true">
+        </div>
+        <div class="form-group inline-elements">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Filter <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <div class="listitems">
+                            <input type="checkbox" ng-model="ffRandomMacs" ng-init="ffRandomMacs=true"> <span>Filter Random Macs</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="listitems">
+                            <input type="checkbox" ng-model="ffEmp" ng-init="ffEmp=true"> <span>Filter Employees</span>
+                        </div>
+                    </li>
+                    <li ng-show="ffEmp" class="dropdown-header">Dwell Time Of Employee [hours]</li>
+                    <li ng-show="ffEmp">
+                        <div class="listitems">
+                            <section>
+                                <input type="range" min="1" max="16" step="1" ng-model="ffDwellTimeEmp" ng-init="ffDwellTimeEmp=8">
+                                <span class="font-small">{{ffDwellTimeEmp}}</span>
+                            </section>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="listitems">
+                            <input type="checkbox" ng-model="ffFixedEquipment" ng-init="ffFixedEquipment=true"> <span>Filter Fixed Equipment</span>
+                        </div>
+                    </li>
+                    <li class="dropdown-header">Min count of observations</li>
+                    <li>
+                        <div class="listitems">
+                            <div class="input-group">
+                                <input type="text" class="form-control filter-inputgroup" ng-model="ffMinCountObs" ng-init="ffMinCountObs=1000" placeholder="Min count of obs" min="5">
+                                <div class="input-group-addon">Obs</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown-header">STDDEV of positions in meters</li>
+                    <li>
+                        <div class="listitems">
+                            <div class="input-group">
+                                <input type="text" class="form-control filter-inputgroup" ng-model="ffSTDDEVofPosMeters" ng-init="ffSTDDEVofPosMeters=5" placeholder="STDDEV of poitions" min="5">
+                                <div class="input-group-addon">m</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li class="dropdown-header">Show:</li>
+                    <li>
+                        <div class="listitems">
+                            <input type="checkbox" ng-model="ffPassthru"> <span>Passthru</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="listitems">
+                            <input type="checkbox" ng-model="ffVisit" ng-init="ffVisit=true"> <span>Visit</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="listitems">
+                            <input type="checkbox" ng-model="ffEngaged" ng-init="ffEngaged=true"> <span>Engaged</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-group inline-elements">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Options <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="filter-centertext">Dwell time threshold</li>
+                    <li class="dropdown-header">Visited Time</li>
+                    <li>
+                        <div class="listitems">
+                            <div class="input-group width-150">
+                                <input type="text" class="form-control filter-inputgroup" placeholder="Visited Time" ng-model="ffVisitedTime" ng-init="ffVisitedTime=3">
+                                <div class="input-group-addon">Min</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown-header">Engaged Time</li>
+                    <li>
+                        <div class="listitems">
+                            <div class="input-group">
+                                <input type="text" class="form-control filter-inputgroup" placeholder="Engaged Time" ng-model="ffEngagedTime" ng-init="ffEngagedTime=20">
+                                <div class="input-group-addon">Min</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown-header">Include Recency values in
+                        <br />the computation of the
+                        <br />average or percentiles
+                        <br />bigger than</li>
+                    <li>
+                        <div class="listitems">
+                            <div class="input-group">
+                                <input type="text" class="form-control filter-inputgroup" placeholder="Engaged Time" ng-model="ffRecValue" ng-init="ffRecValue=24">
+                                <div class="input-group-addon">Hour</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown-header">Include only customers with
+                        <br />at least:</li>
+                    <li>
+                        <div class="listitems">
+                            <div class="input-group">
+                                <input type="text" class="form-control filter-inputgroup" placeholder="Engaged Time" ng-model="ffObsValue" ng-init="ffObsValue=10">
+                                <div class="input-group-addon">Obs</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <button class="btn btn-primary" value="Submit" ng-click="getFrequencyDetails()">Submit</button>
+        <hr />
+        <div class="mar-bot-15">
+            <div ng-if="!Freqloader">
+                <table class="table-bordered data-table mar-bot-20" ng-if="tableVisible && frequencyValues[0].length > 0">
+                    <tr>
+                        <th>Percentile [%]</th>
+                        <th>Value[d]</th>
+                    </tr>
+                    <tr>
+                        <td>90%</td>
+                        <td>{{frequencyValues[0][0] | number}}</td>
+                    </tr>
+                    <tr>
+                        <td>75%</td>
+                        <td>{{frequencyValues[0][1] | number}}</td>
+                    </tr>
+                    <tr>
+                        <td>50%</td>
+                        <td>{{frequencyValues[0][2] | number}}</td>
+                    </tr>
+                    <tr>
+                        <td>25%</td>
+                        <td>{{frequencyValues[0][3] | number}}</td>
+                    </tr>
+                    <tr>
+                        <td>10%</td>
+                        <td>{{frequencyValues[0][4] | number}}</td>
+                    </tr>
+                </table>
+            </div>
+            <p ng-if="treeSelectedStatusFreq" class="notification-msg">Please select branch or store or floor or accesspoint and click on submit button</p>
+            <p ng-if="errorStatus" class="notification-msg">{{errorMsg}}</p>
+            <p ng-if="Freqloader"><img src="images/preloader.gif" width="30"></p>
+            <p ng-if="!Freqloader && frequencyValues[0].length == 0">There is no data available for this period of time</p>
+        </div>
+    </div>
+</div>

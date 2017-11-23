@@ -1,0 +1,24 @@
+﻿<div class="login-container">
+    <div class="card">
+        <div class="login-logo">
+            <img src="images/SmartvisionLogo.jpg" width="200" alt="Smart Vision Logo" />
+        </div>
+        <form name="loginForm" novalidate>
+            <div class="input-container">
+                <input type="text" id="username" name="username" ng-model="username" required="required" />
+                <label for="username">Email Id</label>
+                <div class="bar"></div>
+            </div>
+            <div class="input-container">
+                <input type="password" id="password" name="password" ng-model="password" required="required" />
+                <label for="password">Password</label>
+                <div class="bar"></div>
+            </div>
+            <div class="login-error">{{error_message}}</div>
+            <div class="button-container">
+                <button ng-click="login(username , password)">Login</button>
+            </div>
+            <div class="forgot-link">Forgot your password? Please contact Admin</div>
+        </form>
+    </div>
+</div>

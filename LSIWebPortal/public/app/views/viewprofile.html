@@ -1,0 +1,45 @@
+﻿<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Profile</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="profile-table">
+                            <tr>
+                                <td>Name</td>
+                                <td>:</td>
+                                <td>{{currentUser.userName}}</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>:</td>
+                                <td>{{currentUser.email}}</td>
+                            </tr>
+                            <tr>
+                                <td>Role</td>
+                                <td>:</td>
+                                <td>{{currentUser.role}}</td>
+                            </tr>
+                            <tr>
+                                <td>Accessable To</td>
+                                <td>:</td>
+                                <td>
+                                    <p ng-if="currentUser.cStoreAnalytics">CStore Analytics</p>
+                                    <p ng-if="currentUser.cameraAnalytics">Camera Analytics</p>
+                                    <p ng-if="currentUser.wifiAnalytics">Wifi Analytics</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn redcolor-btn" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
